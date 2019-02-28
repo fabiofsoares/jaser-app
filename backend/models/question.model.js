@@ -1,16 +1,10 @@
-/*
-Imports & configs
-*/
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
-//
-
+const Schema = mongoose.Schema;
 
 /*
 Model definition
 */
 const questionSchema = new Schema({
-    author: String,
     date_creation: Date,
     category: String,
     questions: [
@@ -19,14 +13,8 @@ const questionSchema = new Schema({
             question: String
         }
     ]
-    
 })
-//
 
-
-/*
-Export
-*/
+/* Export */
 const QuestionModel = mongoose.model('question', questionSchema);
 module.exports = QuestionModel;
-//

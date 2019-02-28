@@ -1,15 +1,45 @@
 // Imports
-const QuestionModel    = require('../../models/question.model')
+const QuestionModel = require('../../models/question.model')
 
 //Methods
+
+const postCreateQuestion = (body) => {
+    return new Promise((resolve, reject) => {
+        const newQuestion = {
+            date_creation: new Date(),
+            category: body.category,
+            questions: [
+                {
+                    langue: 'pt',
+                    question: body.pt
+                },
+                {
+                    langue: 'fr',
+                    question: body.fr
+                },
+                {
+                    langue: 'en',
+                    question: body.en
+                },
+                {
+                    langue: 'es',
+                    question: body.es
+                }
+            ]
+        }
+
+        QuestionModel.create(newQuestion)
+        .then(mongoResponse => resolve(mongoResponse))
+        .catch(mongoResponse => reject(mongoResponse))
+    })
+}
 
 const getAllQuestions = () => {
     return new Promise( (resolve, reject) => {
         QuestionModel.find((error, question) => {
             if(error) reject(error)
             else {
-                let questionArray = [];
-
+                let questionArray = [];                
                 ((async function loop(){
                     for(let i = 0; i < question.length; i++){
                         questionArray.push(question[i])
@@ -32,9 +62,35 @@ const getQuestionById = (id) => {
     })
 }
 
+const getQuestionsByCategories = (body) => {
+    return new Promise( (resolve, reject) => {
+        QuestionModel.find({ category: { $in: body.categories } }, (error, question) => {
+            if(error) reject(error)
+            else {
+                return resolve(question)
+            }
+        })
+    })
+}
+
+const getQuestionsByLanguage = (ln) => {
+    console.log(ln)
+    return new Promise( (resolve, reject) => {
+        QuestionModel.find({ questions: { $elemMatch: { langue: ln }} }, (error, question) => {
+            if(error) reject(error)
+            else {
+                return resolve(question)
+            }
+        })
+    })
+}
+
 
 //Export
 module.exports = {
     getAllQuestions,
-    getQuestionById
+    getQuestionById,
+    postCreateQuestion,
+    getQuestionsByCategories,
+    getQuestionsByLanguage 
 }
