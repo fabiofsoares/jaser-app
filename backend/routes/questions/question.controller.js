@@ -8,7 +8,7 @@ const postCreateQuestion = (body) => {
         const newQuestion = {
             date_creation: new Date(),
             category: body.category,
-            questions: [
+            data: [
                 {
                     langue: 'pt',
                     question: body.pt
@@ -67,23 +67,38 @@ const getQuestionsByCategories = (body) => {
         QuestionModel.find({ category: { $in: body.categories } }, (error, question) => {
             if(error) reject(error)
             else {
-                return resolve(question)
+                let questionArray = [];                
+                ((async function loop(){
+                    for(let i = 0; i < question.length; i++){
+                        questionArray.push(question[i])
+                    }
+                    return resolve(questionArray)
+                })());
             }
         })
     })
 }
 
 const getQuestionsByLanguage = (ln) => {
-    console.log(ln)
+    //console.log(ln)
     return new Promise( (resolve, reject) => {
-        QuestionModel.find({ questions: { $elemMatch: { langue: ln }} }, (error, question) => {
+        QuestionModel.find({data: {$elemMatch: {langue: ln}}}, {'data.$': ln}, (error, question) => {
             if(error) reject(error)
             else {
-                return resolve(question)
+                let questionArray = [];                
+                ((async function loop(){
+                    for(let i = 0; i < question.length; i++){
+                        questionArray.push(question[i])
+                    }
+                    return resolve(questionArray)
+                })());
             }
         })
     })
 }
+
+// langue et category
+//db.questions.find({category:"experience"},{data: {$elemMatch: {langue: "fr"}}}, {'data.$': "fr"})
 
 
 //Export

@@ -7,7 +7,7 @@ Model definition
 const questionSchema = new Schema({
     date_creation: Date,
     category: String,
-    questions: [
+    data: [
         {
             langue: String,
             question: String
