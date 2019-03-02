@@ -33,7 +33,7 @@ const getAllQuestionsByCategories = (categories) => {
 
 const getQuestionByCategory = (categories, langue) => {
     return new Promise( (resolve, reject) => { 
-        QuestionModel.find({ category: { $in: categories } },{data: { $elemMatch: {langue: langue} }}, { 'data.$': langue }, (error, question) => {
+        QuestionModel.find({ category: { $in: categories } }, { category: 1, data: { $elemMatch: {langue: langue} }}, { 'data.$': langue }, (error, question) => {
             if(error) reject(error)
             else {
                 let questionArray = [];                

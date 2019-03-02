@@ -62,71 +62,9 @@ const getAllQuestionsById = (id) => {
     })
 }
 
-const getQuestionsById = (id, langue) => {
+const getQuestionById = (id, langue) => {
     return new Promise( (resolve, reject) => {
-        QuestionModel.find({ _id: id }, {data: { $elemMatch: {langue: langue} }}, { 'data.$': langue },(error, question) => {
-            if(error) reject(error)
-            else {
-                return resolve(question)
-            }
-        })
-    })
-}
-
-const getAllQuestionsByCategories = (categories) => {
-    return new Promise( (resolve, reject) => {
-        QuestionModel.find({ category: { $in: categories } }, (error, question) => {
-            if(error) reject(error)
-            else {
-                let questionArray = [];                
-                ((async function loop(){
-                    for(let i = 0; i < question.length; i++){
-                        questionArray.push(question[i])
-                    }
-                    return resolve(questionArray)
-                })());
-            }
-        })
-    })
-}
-
-const getQuestionsByLanguage = (ln) => {
-    return new Promise( (resolve, reject) => {
-        QuestionModel.find({data: {$elemMatch: {langue: ln}}}, {'data.$': ln}, (error, question) => {
-            if(error) reject(error)
-            else {
-                let questionArray = [];                
-                ((async function loop(){
-                    for(let i = 0; i < question.length; i++){
-                        questionArray.push(question[i])
-                    }
-                    return resolve(questionArray)
-                })());
-            }
-        })
-    })
-}
-
-const getQuestionByCategory = (categories, langue) => {
-    return new Promise( (resolve, reject) => { 
-        QuestionModel.find({ category: { $in: categories } },{data: { $elemMatch: {langue: langue} }}, { 'data.$': langue }, (error, question) => {
-            if(error) reject(error)
-            else {
-                let questionArray = [];                
-                ((async function loop(){
-                    for(let i = 0; i < question.length; i++){
-                        questionArray.push(question[i])
-                    }
-                    return resolve(questionArray)
-                })());
-            }
-        })
-    })
-}
-
-const getAllCategories = () => {
-    return new Promise( (resolve, reject) => {
-        QuestionModel.aggregate([ { $group : { _id : "$category" } } ], (error, question) => {
+        QuestionModel.find({ _id: id }, {category: 1, data: { $elemMatch: {langue: langue} }}, { 'data.$': langue },(error, question) => {
             if(error) reject(error)
             else {
                 return resolve(question)
@@ -139,10 +77,6 @@ const getAllCategories = () => {
 module.exports = {
     getAllQuestions,
     getAllQuestionsById,
-    getQuestionsById,
-    postCreateQuestion,
-    getAllQuestionsByCategories,
-    getQuestionByCategory,
-    getQuestionsByLanguage,
-    getAllCategories 
+    getQuestionById,
+    postCreateQuestion
 }
