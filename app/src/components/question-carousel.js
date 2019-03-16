@@ -1,0 +1,74 @@
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
+import { Container, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Button, Right } from 'native-base';
+
+export default class QuestionsCarousel extends Component {
+    constructor(props){
+        super(props)
+    }
+
+    render() {
+        return (
+            <Container>
+                    <View>
+                        <DeckSwiper
+                            ref={(c) => this._deckSwiper = c}
+                            dataSource={this.props.data}
+                            renderItem={(item) =>
+                            <Card style={{ elevation: 3 }}>
+                                
+                                <CardItem style={ styles.cardHeader }>
+                                    <Left>
+                                        <Thumbnail square small source={item.icon} />
+                                        <Body>
+                                            <Text note>Category</Text>
+                                            <Text style={ styles.category }>{item.category}</Text>
+                                        </Body>
+                                    </Left>
+                                    <Right>
+                                        <Icon name="star" style={{ color: '#ED4A6A' }} />
+                                    </Right>
+                                </CardItem>
+
+                                <CardItem cardBody style={ styles.cardBody }>
+                                    <Text style={ styles.question }>{item.text}</Text>
+                                </CardItem>
+                                
+                                <CardItem style={ styles.cardFooter }>
+                                    <Icon name="share" style={{ color: '#ED4A6A' }} />
+                                </CardItem>
+                            </Card>
+                        }/>
+                    </View>
+            </Container>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+
+    cardHeader :{
+        borderBottomColor: '#C6C6C6',
+        borderBottomWidth: 1,
+        backgroundColor: "#FFFFFF"
+    },
+    category: {
+        textTransform: 'capitalize'
+    },
+    cardBody: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 300,
+        padding: 15,
+        backgroundColor: "#C6C6C6"
+    },
+    question: {
+        fontSize: 30,
+        textAlign: 'center'
+    },
+    cardFooter:{
+        borderTopColor: '#C6C6C6',
+        borderTopWidth: 1,
+        backgroundColor: "#FFFFFF"
+    }
+});
