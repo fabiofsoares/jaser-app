@@ -8,7 +8,7 @@ export default class App extends React.Component {
       <Container>
         <Button>
           <Text>
-            Button
+            Button Bonjour
           </Text>
         </Button>
       </Container>
