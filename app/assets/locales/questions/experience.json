@@ -1,0 +1,54 @@
+[
+    {
+        "_id": "5c78283bc8ac6c933b164488",
+        "category": "experience",
+        "data": [
+            {
+                "_id": "5c78283bc8ac6c933b16448c",
+                "langue": "pt",
+                "question": "Você já teve alguma experiência espiritual ?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16448b",
+                "langue": "fr",
+                "question": "Avez-vous déjà eu une expérience spirituelle?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16448a",
+                "langue": "en",
+                "question": "Have you ever had any spiritual experience?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b164489",
+                "langue": "es",
+                "question": "¿Has tenido alguna experiencia espiritual?"
+            }
+        ]
+    },
+    {
+        "_id": "5c7828bcc8ac6c933b16448d",
+        "category": "experience",
+        "data": [
+            {
+                "_id": "5c7828bcc8ac6c933b164491",
+                "langue": "pt",
+                "question": "Como voce imagina sua vida daqui 10 anos ?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b164490",
+                "langue": "fr",
+                "question": "Comment imaginez-vous votre vie dans 10 ans?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16448f",
+                "langue": "en",
+                "question": "How do you imagine your life 10 years from now?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16448e",
+                "langue": "es",
+                "question": "¿Cómo te imaginas tu vida dentro de 10 años?"
+            }
+        ]
+    }
+]

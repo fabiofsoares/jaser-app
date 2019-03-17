@@ -5,6 +5,14 @@ import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
 
 export default class Home extends React.Component {
+    constructor(props){
+        super(props)
+        
+        this.state = {
+            langue: 'fr',
+            cat: ["opinions", "personality"]
+        }
+    }
 
   render() {
 
@@ -25,7 +33,10 @@ export default class Home extends React.Component {
                     <Button large bordered
                         style={ styles.button } 
                         title="Settings"
-                        onPress={() => this.props.navigation.navigate('Settings')} >
+                        onPress={() => this.props.navigation.navigate('Settings', {
+                            langue: this.state.langue,
+                            cat: this.state.cat
+                        })} >
                         <Text style={ styles.button_text }>{ locales.home.btn_settings }</Text>
                     </Button>
                 </View>

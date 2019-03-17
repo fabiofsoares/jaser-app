@@ -8,10 +8,9 @@ export default class Settings extends React.Component {
 
     constructor(props) {
         super(props)
-        
         this.state = {
-            langue: 'fr',
-            cat: ["opinions", "personality"]
+            langue: this.props.navigation.getParam('langue'),
+            cat: this.props.navigation.getParam('cat')
         }
     }
 
@@ -172,9 +171,7 @@ export default class Settings extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
         backgroundColor: '#fff',
-        //alignItems: 'center',
         justifyContent: 'center',
     },
     languagesBody: {

@@ -1,7 +1,7 @@
 module.exports = {
     cat:{
       pers: 'personality',
-      expe: 'experiences',
+      expe: 'experience',
       opin: 'opinions',
       pref: 'preferences'
     },

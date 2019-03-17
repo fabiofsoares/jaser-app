@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Content } from 'native-base';
 import Questions from '../components/question-carousel'
-import Share from '../components/fab-share'
+
+//Questions Locales
+import _personality from '../../assets/locales/questions/personality.json'
+import _experience from '../../assets/locales/questions/experience.json'
 
 const data = [
     {
@@ -29,12 +32,28 @@ const data = [
   ];
 
 export default class Home extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            data: [],
+            langue: 'fr',
+            cat: ["opinions", "personality"]
+        }
+    }
+
+    componentWillMount(){
+
+    }
+
+    _renderData(){
+        
+    }
+
     render() {
         return (
             <Container style={ styles.container }>
                 <Content >
-                    <Questions data={data} />
-                    <Share />
+                    <Questions data={data} />                    
                 </Content>
             </Container>
         );
