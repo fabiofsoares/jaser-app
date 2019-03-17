@@ -26,7 +26,10 @@ export default class Home extends React.Component {
                     <Button large bordered 
                         style={ styles.button }
                         title="Main"
-                        onPress={() => this.props.navigation.navigate('Main')} >
+                        onPress={() => this.props.navigation.navigate('Main', {
+                            langue: this.state.langue,
+                            cat: this.state.cat
+                        })} >
                         <Text style={ styles.button_text }>{ locales.home.btn_main }</Text>
                     </Button>
 
