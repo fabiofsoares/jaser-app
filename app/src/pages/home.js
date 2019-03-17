@@ -45,9 +45,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: global.color.white,
         alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: '#000',
-        borderWidth: 1
+        justifyContent: 'center'
     },
     container_button: {
         marginTop: 20
@@ -59,7 +57,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     button_text: {
-        textAlign: 'center'
+        //textAlign: 'center'
     }
 
 });

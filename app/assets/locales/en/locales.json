@@ -2,5 +2,17 @@
     "home": {
         "btn_main": "Main",
         "btn_settings": "Settings"
+    },
+    "settings":{
+        "title_language":"Language",
+        "french":"French",
+        "portugues":"Portugues",
+        "english":"English",
+        "spanish":"Spanish",
+        "title_category":"Category",
+        "personality":"Personality",
+        "experiences":"Experiences",
+        "preferences":"Preferences",
+        "opinions":"Opinions"
     }
 }
