@@ -15,21 +15,22 @@ export default class Home extends Component {
         super(props)
         this.state = {
             data: [],
-            favorites: [],
+            favorites: this.props.navigation.getParam('favorites'),
+            id: '',
             langue: this.props.navigation.getParam('langue'),
             cat: this.props.navigation.getParam('cat')
         }
     }
 
-    componentWillMount(){
-        this._renderData()
+    componentWillMount() {
+        this._renderData(this.props.navigation.getParam('favorites'))
     }
 
     componentDidMount() {
         this._addFavorite = this._addFavorite.bind(this)
     }
 
-    _renderData(){
+    _renderData( _arrayFavorites ){
         _array = []
         
         if(this.state.cat.indexOf(global.cat.pers) !== -1){
@@ -37,7 +38,8 @@ export default class Home extends Component {
                 item.data.map((question) => {
                     if(question.langue === this.state.langue){
                         _array.push({
-                            id: question._id,
+                            id: item._id,
+                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
                             category: global.cat.pers,
                             icon: require('../../assets/img/icons/personality.png'),
                             text: question.question
@@ -52,7 +54,8 @@ export default class Home extends Component {
                 item.data.map((question) => {
                     if(question.langue === this.state.langue){
                         _array.push({
-                            id: question._id,
+                            id: item._id,
+                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
                             category: global.cat.expe,
                             icon: require('../../assets/img/icons/experience.png'),
                             text: question.question
@@ -67,7 +70,8 @@ export default class Home extends Component {
                 item.data.map((question) => {
                     if(question.langue === this.state.langue){
                         _array.push({
-                            id: question._id,
+                            id: item._id,
+                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
                             category: global.cat.opin,
                             icon: require('../../assets/img/icons/opinion.png'),
                             text: question.question
@@ -82,7 +86,8 @@ export default class Home extends Component {
                 item.data.map((question) => {
                     if(question.langue === this.state.langue){
                         _array.push({
-                            id: question._id,
+                            id: item._id,
+                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
                             category: global.cat.pref,
                             icon: require('../../assets/img/icons/preference.png'),
                             text: question.question
@@ -91,7 +96,7 @@ export default class Home extends Component {
                 })
             })
         }
-
+        
         this.setState({
             data: this.shuffleArray( _array)
         })
@@ -106,31 +111,24 @@ export default class Home extends Component {
     }
 
     _addFavorite(id){
-        
         const index = this.state.favorites.indexOf(id);
         if( index === -1){
-            console.log('nouveu')
             this.setState(prevState => ({
                 favorites: [...prevState.favorites, id]
-            }, () => {
-                console.log(this.state.favorites)
-                Toast.show({
-                    text: "Rajouté sur favoris",
-                    duration: 1200
-                })
             }))
+            Toast.show({
+                text: "Rajouté sur favoris",
+                duration: 1200
+            })
         } else {
             let array = [...this.state.favorites];
             array.splice(index, 1);
-            this.setState({favorites: array}, () => {
-                console.log(this.state.favorites)
-                Toast.show({
-                    text: "Supprimé sur favoris",
-                    duration: 1200
-                })
-            });
+            this.setState({favorites: array});
+            Toast.show({
+                text: "Supprimé sur favoris",
+                duration: 1200
+            })
         }
-
         
     }
 

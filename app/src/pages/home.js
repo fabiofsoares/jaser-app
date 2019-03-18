@@ -3,6 +3,7 @@ import { StyleSheet, Image, View } from 'react-native';
 import { Container, Text, Button, Content } from 'native-base';
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
+import {teste,  _storeData, _getData} from '../config/persiste'
 
 export default class Home extends React.Component {
     constructor(props){
@@ -10,8 +11,13 @@ export default class Home extends React.Component {
         
         this.state = {
             langue: 'fr',
-            cat: ["opinions", "personality", "preferences", "experience"]
+            cat: ["opinions", "personality", "preferences", "experience"],
+            favorites: ['5c78283bc8ac6c933b164488', '5c782c130ce9dc94c42a219f']
         }
+        //const p = new Persiste()
+        
+        _storeData('test', this.state)
+        console.log(_getData('test'))
     }
 
   render() {
@@ -28,7 +34,8 @@ export default class Home extends React.Component {
                         title="Main"
                         onPress={() => this.props.navigation.navigate('Main', {
                             langue: this.state.langue,
-                            cat: this.state.cat
+                            cat: this.state.cat,
+                            favorites: this.state.favorites
                         })} >
                         <Text style={ styles.button_text }>{ locales.home.btn_main }</Text>
                     </Button>

@@ -6,6 +6,14 @@ export default class QuestionsCarousel extends Component {
     constructor(props){
         super(props)
     }
+    
+    // componentDidMount(){
+    //     this._addFavorite = this._addFavorite.bind(this)
+    // }
+    
+    // _addFavorite(){
+
+    // }
 
     render() {
         return (
@@ -25,8 +33,9 @@ export default class QuestionsCarousel extends Component {
                         </Left>
                         <Right>
                             <Icon name="star" 
-                                style={{ color: '#ED4A6A' }} 
+                                style={item.favorite ? styles.favoriteON : styles.favoriteOFF} 
                                 onPress={ () => this.props.favorites(item.id)}/>
+                                
                         </Right>
                     </CardItem>
 
@@ -68,5 +77,11 @@ const styles = StyleSheet.create({
         borderTopColor: '#C6C6C6',
         borderTopWidth: 1,
         backgroundColor: "#FFFFFF"
+    },
+    favoriteON: {
+        color:'#ED4A6A'
+    },
+    favoriteOFF: {
+        color:'#C6C6C6'
     }
 });
