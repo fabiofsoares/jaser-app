@@ -1,0 +1,54 @@
+[
+    {
+        "_id": "5c78283bc8ac6c933b16448e",
+        "category": "opinions",
+        "data": [
+            {
+                "_id": "5c78283bc8ac6c933b16448d",
+                "langue": "pt",
+                "question": "Você acredita em sicronismo de pessoas?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16448c",
+                "langue": "fr",
+                "question": "Croyez-vous au sicronisme entre deux personnes ?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16448b",
+                "langue": "en",
+                "question": "Do you believe in sicronism between two people?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16448a",
+                "langue": "es",
+                "question": "¿Crees en el sicronismo entre dos personas?"
+            }
+        ]
+    },
+    {
+        "_id": "5c7828bcc8ac6c933b16448e",
+        "category": "opinions",
+        "data": [
+            {
+                "_id": "5c7828bcc8ac6c933b16449d",
+                "langue": "pt",
+                "question": "Existe segredo para manter-se jovem?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16449c",
+                "langue": "fr",
+                "question": "Y a-t-il un secret pour rester jeune ?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16448b",
+                "langue": "en",
+                "question": "Is there a secret to staying young?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16448a",
+                "langue": "es",
+                "question": "¿Hay secreto para mantenerse joven?"
+            }
+        ]
+    }
+]

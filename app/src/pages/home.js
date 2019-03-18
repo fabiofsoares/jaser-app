@@ -10,7 +10,7 @@ export default class Home extends React.Component {
         
         this.state = {
             langue: 'fr',
-            cat: ["opinions", "personality"]
+            cat: ["opinions", "personality", "preferences", "experience"]
         }
     }
 

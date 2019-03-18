@@ -1,0 +1,54 @@
+[
+    {
+        "_id": "5c78283bc8ac6c933b1644ae",
+        "category": "preferences",
+        "data": [
+            {
+                "_id": "5c78283bc8ac6c933b16441d",
+                "langue": "pt",
+                "question": "Qual seria a festa dos seus sonhos?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16442c",
+                "langue": "fr",
+                "question": "Quelle serait la fête de tes rêves ?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16443b",
+                "langue": "en",
+                "question": "What would be the party of your dreams?"
+            },
+            {
+                "_id": "5c78283bc8ac6c933b16444a",
+                "langue": "es",
+                "question": "¿Cuál sería la fiesta de sus sueños?"
+            }
+        ]
+    },
+    {
+        "_id": "5c7828bcc8ac6c933b16445e",
+        "category": "preferences",
+        "data": [
+            {
+                "_id": "5c7828bcc8ac6c933b16446d",
+                "langue": "pt",
+                "question": "Qual instituiçao de caridade voce gostaria de ajudar?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16447c",
+                "langue": "fr",
+                "question": "Quel organisme de bienfaisance voudriez-vous aider ?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16449b",
+                "langue": "en",
+                "question": "Which charity would you like to help?"
+            },
+            {
+                "_id": "5c7828bcc8ac6c933b16440a",
+                "langue": "es",
+                "question": "¿Qué institución de caridad te gustaría ayudar?"
+            }
+        ]
+    }
+]
