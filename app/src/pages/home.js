@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, AsyncStorage } from 'react-native';
 import { Container, Text, Button, Content } from 'native-base';
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
@@ -10,51 +10,73 @@ export default class Home extends React.Component {
         super(props)
         
         this.state = {
-            langue: 'fr',
-            cat: ["opinions", "personality", "preferences", "experience"],
-            favorites: ['5c78283bc8ac6c933b164488', '5c782c130ce9dc94c42a219f']
+            langue: '',
+            cat: [],
+            favorites: []
         }
         //const p = new Persiste()
         
-        _storeData('test', this.state)
-        console.log(_getData('test'))
+        //_storeData(global.KEYS.PREF, this.state)
+        //console.log(_getData('test'))
     }
+   
+    componentWillMount(){
+        
+        AsyncStorage.getItem(global.KEYS.PREF).then((json) => {
+            data = JSON.parse(json)
+            this.setState({
+                langue: data.langue ? data.langue : 'fr',
+                cat: data.cat ? data.cat :  ["opinions", "personality", "preferences", "experience"]
+            }, () => {
+                console.log(this.state)
+            })
+        })
 
-  render() {
+        AsyncStorage.getItem(global.KEYS.FAV).then((json) => {
+            data = JSON.parse(json)
+            this.setState({
+                favorites: data.favorites ? data.favorites : []
+            }, () => {
+                console.log(this.state)
+            })
+        })
+    }   
 
-    return (
-        <Container style={ styles.container }>
+    render() {
 
-            <Content contentContainerStyle={styles.content}>
-                <Image source={require('../../assets/img/logo-app.png')}/>
+        return (
+            <Container style={ styles.container }>
 
-                <View style={ styles.container_button }>
-                    <Button large bordered 
-                        style={ styles.button }
-                        title="Main"
-                        onPress={() => this.props.navigation.navigate('Main', {
-                            langue: this.state.langue,
-                            cat: this.state.cat,
-                            favorites: this.state.favorites
-                        })} >
-                        <Text style={ styles.button_text }>{ locales.home.btn_main }</Text>
-                    </Button>
+                <Content contentContainerStyle={styles.content}>
+                    <Image source={require('../../assets/img/logo-app.png')}/>
 
-                    <Button large bordered
-                        style={ styles.button } 
-                        title="Settings"
-                        onPress={() => this.props.navigation.navigate('Settings', {
-                            langue: this.state.langue,
-                            cat: this.state.cat
-                        })} >
-                        <Text style={ styles.button_text }>{ locales.home.btn_settings }</Text>
-                    </Button>
-                </View>
-            </Content>
-            
-        </Container>
-    );
-  }
+                    <View style={ styles.container_button }>
+                        <Button large bordered 
+                            style={ styles.button }
+                            title="Main"
+                            onPress={() => this.props.navigation.navigate('Main', {
+                                langue: this.state.langue,
+                                cat: this.state.cat,
+                                favorites: this.state.favorites
+                            })} >
+                            <Text style={ styles.button_text }>{ locales.home.btn_main }</Text>
+                        </Button>
+
+                        <Button large bordered
+                            style={ styles.button } 
+                            title="Settings"
+                            onPress={() => this.props.navigation.navigate('Settings', {
+                                langue: this.state.langue,
+                                cat: this.state.cat
+                            })} >
+                            <Text style={ styles.button_text }>{ locales.home.btn_settings }</Text>
+                        </Button>
+                    </View>
+                </Content>
+                
+            </Container>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

@@ -8,5 +8,9 @@ module.exports = {
     color: {
       white:"#FFFFFF",
       black: "#252525"
+    },
+    KEYS: {
+      PREF: 'PREFERENCES',
+      FAV: 'FAVORITES'
     }
   };
