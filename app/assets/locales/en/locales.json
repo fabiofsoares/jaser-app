@@ -1,7 +1,8 @@
 {
     "home": {
         "btn_main": "Main",
-        "btn_settings": "Settings"
+        "btn_settings": "Settings",
+        "btn_favorites": "My Favorites"
     },
     "settings":{
         "title_language":"Language",

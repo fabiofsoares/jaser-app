@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Image, View, AsyncStorage } from 'react-native';
-import { Container, Text, Button, Content } from 'native-base';
+import { StyleSheet, Image, View } from 'react-native';
+import { Container, Text, Button, Content, Toast } from 'native-base';
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
-import {teste,  _storeData, _getData} from '../config/persiste'
+import {_storeData, _getData} from '../config/persiste'
 
 export default class Home extends React.Component {
     constructor(props){
@@ -14,36 +14,63 @@ export default class Home extends React.Component {
             cat: [],
             favorites: []
         }
-        //const p = new Persiste()
-        
-        //_storeData(global.KEYS.PREF, this.state)
-        //console.log(_getData('test'))
     }
-   
-    componentWillMount(){
+
+    componentDidMount(){
+        this._savePreferences = this._savePreferences.bind(this)
+        this._saveFavorites = this._saveFavorites.bind(this)
+    }
+
+    _savePreferences(data){
+        let difference = this.state.cat
+                 .filter(x => !data.cat.includes(x))
+                 .concat(data.cat.filter(x => !this.state.cat.includes(x)));
         
-        AsyncStorage.getItem(global.KEYS.PREF).then((json) => {
-            data = JSON.parse(json)
+        if((data.langue !== this.state.langue) || (difference.length > 0)) {
             this.setState({
-                langue: data.langue ? data.langue : 'fr',
-                cat: data.cat ? data.cat :  ["opinions", "personality", "preferences", "experience"]
+                langue : data.langue,
+                cat: data.cat
             }, () => {
-                console.log(this.state)
+                _storeData(global.KEYS.PREF, data)
+                Toast.show({
+                    text: "Enregistrées",
+                    duration: 2000
+                })
             })
+        } 
+    }
+
+    _saveFavorites(data){
+        this.setState({
+            favorites: data
+        }, () => {
+            _storeData(global.KEYS.FAV, this.state.favorites)
+        })
+    }
+
+    componentWillMount(){
+        _getData(global.KEYS.PREF).then((json)=>{
+            if(json !== null){
+                const data = JSON.parse(json);
+                this.setState({
+                    langue: data.langue ? data.langue : global.DEFAULT_PREF.langue,
+                    cat: data.cat ? data.cat : global.DEFAULT_PREF.category
+                })
+            }
         })
 
-        AsyncStorage.getItem(global.KEYS.FAV).then((json) => {
-            data = JSON.parse(json)
-            this.setState({
-                favorites: data.favorites ? data.favorites : []
-            }, () => {
-                console.log(this.state)
-            })
+        _getData(global.KEYS.FAV).then((json)=>{
+            if(json !== null){
+                const data = JSON.parse(json);
+                this.setState({
+                    favorites: data
+                })
+            }
         })
     }   
 
     render() {
-
+        
         return (
             <Container style={ styles.container }>
 
@@ -57,7 +84,8 @@ export default class Home extends React.Component {
                             onPress={() => this.props.navigation.navigate('Main', {
                                 langue: this.state.langue,
                                 cat: this.state.cat,
-                                favorites: this.state.favorites
+                                favorites: this.state.favorites,
+                                updateFavorites: this._saveFavorites
                             })} >
                             <Text style={ styles.button_text }>{ locales.home.btn_main }</Text>
                         </Button>
@@ -67,9 +95,22 @@ export default class Home extends React.Component {
                             title="Settings"
                             onPress={() => this.props.navigation.navigate('Settings', {
                                 langue: this.state.langue,
-                                cat: this.state.cat
+                                cat: this.state.cat,
+                                updateValue: this._savePreferences
                             })} >
                             <Text style={ styles.button_text }>{ locales.home.btn_settings }</Text>
+                        </Button>
+
+                        <Button large bordered
+                            style={ styles.button } 
+                            title="Favorites"
+                            onPress={() => this.props.navigation.navigate('Favorites', {
+                                langue: this.state.langue,
+                                cat: this.state.cat,
+                                favorites: this.state.favorites,
+                                updateFavorites: this._saveFavorites
+                            })} >
+                            <Text style={ styles.button_text }>{ locales.home.btn_favorites }</Text>
                         </Button>
                     </View>
                 </Content>

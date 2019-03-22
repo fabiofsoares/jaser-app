@@ -16,7 +16,6 @@ export default class Home extends Component {
         this.state = {
             data: [],
             favorites: this.props.navigation.getParam('favorites'),
-            id: '',
             langue: this.props.navigation.getParam('langue'),
             cat: this.props.navigation.getParam('cat')
         }
@@ -86,7 +85,7 @@ export default class Home extends Component {
                 item.data.map((question) => {
                     if(question.langue === this.state.langue){
                         _array.push({
-                            id: item._id,
+                            id: item._id,                            
                             favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
                             category: global.cat.pref,
                             icon: require('../../assets/img/icons/preference.png'),
@@ -98,14 +97,21 @@ export default class Home extends Component {
         }
         
         this.setState({
-            data: this.shuffleArray( _array)
+            data: this._shuffleArray( _array)
         })
     }
 
-    shuffleArray(array) {
+    _shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
+        }
+        return this._addIndex(array);
+    }
+
+    _addIndex(array) {
+        for(let i = 0; i < array.length; i++){
+            array[i].index = i + 1;
         }
         return array;
     }
@@ -115,7 +121,9 @@ export default class Home extends Component {
         if( index === -1){
             this.setState(prevState => ({
                 favorites: [...prevState.favorites, id]
-            }))
+            }), () => {
+                this.props.navigation.state.params.updateFavorites(this.state.favorites)
+            })
             Toast.show({
                 text: "Rajouté sur favoris",
                 duration: 1200
@@ -123,13 +131,14 @@ export default class Home extends Component {
         } else {
             let array = [...this.state.favorites];
             array.splice(index, 1);
-            this.setState({favorites: array});
+            this.setState({favorites: array}, () => {
+                this.props.navigation.state.params.updateFavorites(this.state.favorites)
+            });
             Toast.show({
                 text: "Supprimé sur favoris",
                 duration: 1200
             })
         }
-        
     }
 
     render() {

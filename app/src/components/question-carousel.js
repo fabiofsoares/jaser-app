@@ -18,7 +18,7 @@ export default class QuestionsCarousel extends Component {
     render() {
         return (
             <DeckSwiper
-                ref={(c) => this._deckSwiper = c}
+                ref={(c) => {this._deckSwiper = c}}
                 dataSource={this.props.data}
                 renderItem={(item) =>
                 <Card style={{ elevation: 3 }}>
@@ -31,6 +31,7 @@ export default class QuestionsCarousel extends Component {
                                 <Text style={ styles.category }>{item.category}</Text>
                             </Body>
                         </Left>
+                        <Text>{item.index} / {this.props.data.length}</Text>
                         <Right>
                             <Icon name="star" 
                                 style={item.favorite ? styles.favoriteON : styles.favoriteOFF} 
@@ -53,7 +54,6 @@ export default class QuestionsCarousel extends Component {
 }
 
 const styles = StyleSheet.create({
-
     cardHeader :{
         borderBottomColor: '#C6C6C6',
         borderBottomWidth: 1,

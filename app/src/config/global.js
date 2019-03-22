@@ -12,5 +12,9 @@ module.exports = {
     KEYS: {
       PREF: 'PREFERENCES',
       FAV: 'FAVORITES'
+    },
+    DEFAULT_PREF: {
+      langue: 'fr',
+      category: ["opinions", "personality", "preferences", "experience"]
     }
   };

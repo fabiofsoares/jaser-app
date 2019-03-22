@@ -1,10 +1,20 @@
 import React from 'react';
-import { StyleSheet, View , Image, TouchableHighlight } from 'react-native';
-import { Container, Radio, Content, ListItem, Card, CardItem, Text, Body, Left, Right, Thumbnail, Button } from "native-base";
+import { StyleSheet, View , Image, Button, TouchableHighlight } from 'react-native';
+import { Container, Radio, Content, ListItem, Card, CardItem, Text, Body, Left, Right, Thumbnail, Icon, Toast } from "native-base";
+import { HeaderBackButton } from 'react-navigation';
+
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
+import { _storeData, _getData } from '../config/persiste'
 
 export default class Settings extends React.Component {
+
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state
+        return {
+            headerLeft:(<HeaderBackButton onPress={()=>{ params.saveSettings() }}/>)
+        }
+    }
 
     constructor(props) {
         super(props)
@@ -13,10 +23,18 @@ export default class Settings extends React.Component {
             cat: this.props.navigation.getParam('cat')
         }
     }
-
+    
     componentDidMount(){
         this._changeLanguage = this._changeLanguage.bind(this);
         this._selectCategory = this._selectCategory.bind(this);
+        this._onSaveSettings = this._onSaveSettings.bind(this)
+
+        this.props.navigation.setParams({ saveSettings: this._onSaveSettings })
+    }
+
+    _onSaveSettings() {
+        this.props.navigation.state.params.updateValue(this.state)
+        this.props.navigation.navigate('Home')
     }
 
     _changeLanguage(value){

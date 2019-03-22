@@ -11,7 +11,7 @@
             {
                 "_id": "5c782c130ce9dc94c42a21a2",
                 "langue": "fr",
-                "question": "Y a-t-il quelque chose que vous regrettez?"
+                "question": "Y a-t-il quelque chose que vous regrettez ?"
             },
             {
                 "_id": "5c782c130ce9dc94c42a21a1",
@@ -37,7 +37,7 @@
             {
                 "_id": "5c782c4d0ce9dc94c42a21a7",
                 "langue": "fr",
-                "question": "Êtes-vous passé, présent ou futur?"
+                "question": "Êtes-vous passé, présent ou futur ?"
             },
             {
                 "_id": "5c782c4d0ce9dc94c42a21a6",
