@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content, Toast } from 'native-base';
+import { Container, Content, Toast, Button } from 'native-base';
 import Questions from '../components/question-carousel'
 import global from '../config/global'
 
@@ -10,7 +10,7 @@ import _experience from '../../assets/locales/questions/experience.json'
 import _opinions from '../../assets/locales/questions/opinions.json'
 import _preferences from '../../assets/locales/questions/preferences.json'
 
-export default class Home extends Component {
+export default class Main extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -143,9 +143,11 @@ export default class Home extends Component {
 
     render() {
         return (
-            <Container style={ styles.container }>
+            <Container style={ styles.container } ref={ref => { this.viewRef = ref; }}>
                 <Content >
-                    <Questions data={this.state.data} favorites={ this._addFavorite.bind(this) }/>                    
+                    <Questions 
+                        data={this.state.data} 
+                        favorites={ this._addFavorite.bind(this) } />                    
                 </Content>
             </Container>
         );

@@ -114,12 +114,7 @@ export default class Favorites extends Component {
         })
     }
 
-    _saveFavorites(){
-
-    }
-
     render(){
-        //console.log('render', this.state.data)
         return (
             <Container>
                 <Content>
@@ -131,11 +126,7 @@ export default class Favorites extends Component {
                             </Left>
                             <Right>
                                 { this.state.data.personality.length > 0 &&
-                                <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.personality,
-                                        favorites: this.state.favorites
-                                    })} >
+                                <Button transparent>
                                     <Badge success>
                                         <Text>{ this.state.data.personality.length }</Text>
                                     </Badge>
@@ -151,11 +142,7 @@ export default class Favorites extends Component {
                             </Left>
                             <Right>
                                 { this.state.data.experience.length > 0 &&
-                                <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.experience,
-                                        favorites: this.state.favorites
-                                    })} >
+                                <Button transparent>
                                     <Badge success>
                                         <Text>{ this.state.data.experience.length }</Text>
                                     </Badge> 
@@ -171,11 +158,7 @@ export default class Favorites extends Component {
                             </Left>
                             <Right>
                                 { this.state.data.opinions.length > 0 &&
-                                <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.opinions,
-                                        favorites: this.state.favorites
-                                    })} >
+                                <Button transparent>
                                     <Badge success>
                                         <Text>{ this.state.data.opinions.length }</Text>
                                     </Badge>
@@ -191,11 +174,7 @@ export default class Favorites extends Component {
                             </Left>
                             <Right>
                                 { this.state.data.preferences.length > 0 &&
-                                <Button transparent
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.preferences,
-                                        favorites: this.state.favorites
-                                    })} >
+                                <Button transparent>
                                     <Badge success>
                                         <Text>{ this.state.data.preferences.length }</Text>
                                     </Badge> 

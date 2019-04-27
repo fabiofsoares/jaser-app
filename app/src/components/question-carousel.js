@@ -1,19 +1,68 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Right, Toast } from 'native-base';
+import { Alert, StyleSheet, CameraRoll, Platform } from 'react-native';
+import { DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Right, Toast, View } from 'native-base';
+import { Constants, takeSnapshotAsync } from 'expo';
 
 export default class QuestionsCarousel extends Component {
     constructor(props){
         super(props)
     }
     
-    // componentDidMount(){
-    //     this._addFavorite = this._addFavorite.bind(this)
-    // }
+    componentDidMount(){
+        //this._addFavorite = this._addFavorite.bind(this)
+        this._snapShot = this._snapShot.bind(this)
+    }
     
     // _addFavorite(){
 
     // }
+
+    _snapShot = async (view) => {
+        const options = {
+            format: 'jpg',
+            quality: 0.8,
+            result: 'file',
+            width: 600,
+            height: 600,
+        };
+
+        try {
+            const file = await takeSnapshotAsync(view, options);
+            this.saveToCameraRoll(file)
+        } catch (e) {
+            console.log(e);
+            Alert.alert('Error', e)
+        }
+    }
+    
+    saveToCameraRoll = (image) => {
+        if (Platform.OS === 'android') {
+          RNFetchBlob
+          .config({
+            fileCache : true,
+            appendExt : 'jpg'
+          })
+          .fetch('GET', image.urls.small)
+          .then((res) => {
+            CameraRoll.saveToCameraRoll(res.path())
+              .then(
+                Toast.show({
+                    text: "Image enregistrée",
+                    duration: 1200
+                })
+              )
+              .catch(err => console.log('err:', err))
+          })
+        } else {
+          CameraRoll.saveToCameraRoll(image)
+            .then(
+                Toast.show({
+                    text: "Image enregistrée",
+                    duration: 1200
+                })
+            )
+        }
+    }
 
     render() {
         return (
@@ -40,12 +89,13 @@ export default class QuestionsCarousel extends Component {
                         </Right>
                     </CardItem>
 
-                    <CardItem cardBody style={ styles.cardBody }>
+                    <CardItem cardBody style={ styles.cardBody } ref={(c) => {this._cardItem = c}}>
                         <Text style={ styles.question }>{item.text}</Text>
                     </CardItem>
                     
+                    
                     <CardItem style={ styles.cardFooter }>
-                        <Icon name="share" style={{ color: '#ED4A6A' }} />
+                        <Icon name="share" style={{ color: '#ED4A6A' }} onPress={ () => this._snapShot(this._cardItem) }/>
                     </CardItem>
                 </Card>
             }/>
