@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Alert } from 'react-native';
 import { Container, Text, Button, Content, Toast } from 'native-base';
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
@@ -19,6 +19,7 @@ export default class Home extends React.Component {
     componentDidMount(){
         this._savePreferences = this._savePreferences.bind(this)
         this._saveFavorites = this._saveFavorites.bind(this)
+        this._logIn = this._logIn.bind(this)
     }
 
     _savePreferences(data){
@@ -67,6 +68,30 @@ export default class Home extends React.Component {
                 })
             }
         })
+    }
+
+    async _logIn() {
+        console.log('login facebook')
+        try {
+          const {
+            type,
+            token,
+            expires,
+            permissions,
+            declinedPermissions,
+          } = await Expo.Facebook.logInWithReadPermissionsAsync('538134860047118', {
+            permissions: ['public_profile'],
+          });
+          if (type === 'success') {
+            // Get the user's name using Facebook's Graph API
+            const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+            Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+          } else {
+            // type === 'cancel'
+          }
+        } catch ({ message }) {
+          alert(`Facebook Login Error: ${message}`);
+        }
     }   
 
     render() {
@@ -112,6 +137,14 @@ export default class Home extends React.Component {
                             })} >
                             <Text style={ styles.button_text }>{ locales.home.btn_favorites }</Text>
                         </Button>
+
+                        <Button large bordered
+                            style={ styles.button } 
+                            title="Facebook"
+                            onPress={() => this._logIn()} >
+                            <Text style={ styles.button_text }>{ 'Facebook' }</Text>
+                        </Button>
+
                     </View>
                 </Content>
                 

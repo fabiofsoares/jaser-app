@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, CameraRoll, Platform } from 'react-native';
-import { DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Right, Toast, View } from 'native-base';
+import { Alert, StyleSheet, CameraRoll, Platform, Share } from 'react-native';
+import { DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Right, Toast, View, Button } from 'native-base';
 import { Constants, takeSnapshotAsync } from 'expo';
 
 export default class QuestionsCarousel extends Component {
@@ -9,26 +9,46 @@ export default class QuestionsCarousel extends Component {
     }
     
     componentDidMount(){
-        //this._addFavorite = this._addFavorite.bind(this)
+        this._addFavorite = this._addFavorite.bind(this)
         this._snapShot = this._snapShot.bind(this)
     }
     
-    // _addFavorite(){
+    _addFavorite(id, star, favorite){
+        //star.style(favorite ? styles.favoriteON : styles.favoriteOFF);
+        this.props.favorites(id)
+    }
+  
+    share(file){
+        try {
+            Share.share({
+                //url:'https://toolkit.danparis.fr/jaser/',
+                title:"Jaser App",
+                message:"Alors... que pensez vous sur ...",
+                url: "data:image/png;base64,"+file
+            }).then(() => {
+    
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
-    // }
-
-    _snapShot = async (view) => {
+    _snapShot = async (view, save) => {
         const options = {
             format: 'jpg',
             quality: 0.8,
-            result: 'file',
+            result: save ? 'file' : 'base64',
             width: 600,
             height: 600,
         };
 
         try {
             const file = await takeSnapshotAsync(view, options);
-            this.saveToCameraRoll(file)
+            if(save){
+                this.saveToCameraRoll(file)
+            } else {
+                this.share(file)
+            }
         } catch (e) {
             console.log(e);
             Alert.alert('Error', e)
@@ -83,19 +103,26 @@ export default class QuestionsCarousel extends Component {
                         <Text>{item.index} / {this.props.data.length}</Text>
                         <Right>
                             <Icon name="star" 
-                                style={item.favorite ? styles.favoriteON : styles.favoriteOFF} 
-                                onPress={ () => this.props.favorites(item.id)}/>
-                                
+                                ref={c => this._start = c}
+                                style={ item.favorite ? styles.favoriteON : styles.favoriteOFF } 
+                                onPress={ () => this._addFavorite(item.id, this._start, item.favorite)}/>
                         </Right>
                     </CardItem>
 
-                    <CardItem cardBody style={ styles.cardBody } ref={(c) => {this._cardItem = c}}>
+                    <CardItem cardBody style={ styles.cardBody } ref={(c) => { this._cardItem = c }}>
                         <Text style={ styles.question }>{item.text}</Text>
                     </CardItem>
                     
                     
                     <CardItem style={ styles.cardFooter }>
-                        <Icon name="share" style={{ color: '#ED4A6A' }} onPress={ () => this._snapShot(this._cardItem) }/>
+                        <Left>
+                            <Icon name="save" style={{ color: '#ED4A6A' }} 
+                                    onPress={ () => this._snapShot(this._cardItem, true) }/>
+                        </Left>
+                        <Right>
+                            <Icon name="share" style={{ color: '#28847C' }} 
+                                    onPress={() => this._snapShot(this._cardItem, false) }/>
+                        </Right>
                     </CardItem>
                 </Card>
             }/>

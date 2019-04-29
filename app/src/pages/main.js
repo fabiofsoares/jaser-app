@@ -156,7 +156,7 @@ export default class Main extends Component {
 
 const styles = StyleSheet.create({ 
     container: {
-        marginTop: 50,
+        marginTop: 10,
         padding: 15
     }
 })
