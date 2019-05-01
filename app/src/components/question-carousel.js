@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, CameraRoll, Platform, Share } from 'react-native';
+import { Alert, StyleSheet, CameraRoll, Platform, Share, ImageBackground, TouchableOpacity, Image  } from 'react-native';
 import { DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Right, Toast, View, Button } from 'native-base';
 import { Constants, takeSnapshotAsync } from 'expo';
 
 export default class QuestionsCarousel extends Component {
     constructor(props){
         super(props)
+        this.background = [
+            require('../../assets/img/colors-background/1.png'),
+            require('../../assets/img/colors-background/2.png'),
+            require('../../assets/img/colors-background/3.png'),
+            require('../../assets/img/colors-background/4.png'),
+            require('../../assets/img/colors-background/5.png')
+        ]
     }
     
     componentDidMount(){
@@ -68,7 +75,8 @@ export default class QuestionsCarousel extends Component {
               .then(
                 Toast.show({
                     text: "Image enregistrée",
-                    duration: 1200
+                    duration: 1200,
+                    style: { backgroundColor: "#26BCAD" }
                 })
               )
               .catch(err => console.log('err:', err))
@@ -78,7 +86,8 @@ export default class QuestionsCarousel extends Component {
             .then(
                 Toast.show({
                     text: "Image enregistrée",
-                    duration: 1200
+                    duration: 1200,
+                    style: { backgroundColor: "#26BCAD" }
                 })
             )
         }
@@ -90,17 +99,19 @@ export default class QuestionsCarousel extends Component {
                 ref={(c) => {this._deckSwiper = c}}
                 dataSource={this.props.data}
                 renderItem={(item) =>
-                <Card style={{ elevation: 3 }}>
+                <Card style={{ elevation: 3, backgroundColor: '#FFFFFF' }}>
                     
                     <CardItem style={ styles.cardHeader }>
                         <Left>
-                            <Thumbnail square small source={item.icon} />
+                            {/* <Thumbnail square small source={item.icon} /> */}
                             <Body>
-                                <Text note>Category</Text>
+                                <Text note style={ styles.note }>Category</Text>
                                 <Text style={ styles.category }>{item.category}</Text>
                             </Body>
                         </Left>
-                        <Text>{item.index} / {this.props.data.length}</Text>
+                        <ImageBackground source={ require('../../assets/img/bg_index.png') } style={ styles.index }>
+                            <Text style={ styles.indexText }>{item.index} / {this.props.data.length}</Text>
+                        </ImageBackground >
                         <Right>
                             <Icon name="star" 
                                 ref={c => this._start = c}
@@ -109,19 +120,23 @@ export default class QuestionsCarousel extends Component {
                         </Right>
                     </CardItem>
 
-                    <CardItem cardBody style={ styles.cardBody } ref={(c) => { this._cardItem = c }}>
-                        <Text style={ styles.question }>{item.text}</Text>
+                    <CardItem cardBody style={ styles.cardBody } >
+                        <ImageBackground ref={(c) => { this._cardItem = c }} source={ this.background[ (item.index + 5) % 5] } style={ styles.imageBackground }>
+                            <Text style={ styles.question }>{item.text}</Text>
+                        </ImageBackground>
                     </CardItem>
                     
                     
                     <CardItem style={ styles.cardFooter }>
                         <Left>
-                            <Icon name="save" style={{ color: '#ED4A6A' }} 
-                                    onPress={ () => this._snapShot(this._cardItem, true) }/>
+                            <TouchableOpacity onPress={ () => this._snapShot(this._cardItem, true) }>
+                                <Image source={require('../../assets/img/icons/save.png')} />
+                            </TouchableOpacity>
                         </Left>
                         <Right>
-                            <Icon name="share" style={{ color: '#28847C' }} 
-                                    onPress={() => this._snapShot(this._cardItem, false) }/>
+                            <TouchableOpacity  onPress={() => this._snapShot(this._cardItem, false) }>
+                                <Image source={require('../../assets/img/icons/share.png')} />
+                            </TouchableOpacity>
                         </Right>
                     </CardItem>
                 </Card>
@@ -132,33 +147,55 @@ export default class QuestionsCarousel extends Component {
 
 const styles = StyleSheet.create({
     cardHeader :{
-        borderBottomColor: '#C6C6C6',
-        borderBottomWidth: 1,
-        backgroundColor: "#FFFFFF"
+        
     },
     category: {
-        textTransform: 'capitalize'
+        textTransform: 'capitalize',
+        fontSize: 12
+    },
+    note: {
+        fontSize: 10
     },
     cardBody: {
         justifyContent: 'center',
         alignItems: 'center',
         height: 300,
-        padding: 15,
-        backgroundColor: "#C6C6C6"
-    },
-    question: {
-        fontSize: 30,
-        textAlign: 'center'
+        padding: 20,
+        
     },
     cardFooter:{
-        borderTopColor: '#C6C6C6',
-        borderTopWidth: 1,
-        backgroundColor: "#FFFFFF"
+       
     },
     favoriteON: {
         color:'#ED4A6A'
     },
     favoriteOFF: {
         color:'#C6C6C6'
+    },
+    imageBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%'
+    },
+    question: {
+        fontSize: 25,
+        textAlign: 'center',
+        color: '#FFFFFF',
+        padding: 5
+    },
+    index :{
+       
+        maxWidth: 42,
+        width: 42,
+        height: 42,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    indexText: {
+        color: '#070707',
+        fontWeight: 'bold',
+        fontSize: 10
     }
 });

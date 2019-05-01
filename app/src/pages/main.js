@@ -126,7 +126,8 @@ export default class Main extends Component {
             })
             Toast.show({
                 text: "Rajouté sur favoris",
-                duration: 1200
+                duration: 1200,
+                style: { backgroundColor: "#26BCAD" }
             })
         } else {
             let array = [...this.state.favorites];
@@ -136,15 +137,16 @@ export default class Main extends Component {
             });
             Toast.show({
                 text: "Supprimé sur favoris",
-                duration: 1200
+                duration: 1200,
+                style: { backgroundColor: "#FE7567" }
             })
         }
     }
 
     render() {
         return (
-            <Container style={ styles.container } ref={ref => { this.viewRef = ref; }}>
-                <Content >
+            <Container style={ styles.container } >
+                <Content>
                     <Questions 
                         data={this.state.data} 
                         favorites={ this._addFavorite.bind(this) } />                    
@@ -156,7 +158,6 @@ export default class Main extends Component {
 
 const styles = StyleSheet.create({ 
     container: {
-        marginTop: 10,
         padding: 15
     }
 })

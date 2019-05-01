@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, View, Alert } from 'react-native';
+import { StyleSheet, Image, View, Alert, TouchableOpacity } from 'react-native';
 import { Container, Text, Button, Content, Toast } from 'native-base';
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
@@ -35,7 +35,8 @@ export default class Home extends React.Component {
                 _storeData(global.KEYS.PREF, data)
                 Toast.show({
                     text: "Enregistrées",
-                    duration: 2000
+                    duration: 2000,
+                    style: { backgroundColor: "#26BCAD" }
                 })
             })
         } 
@@ -103,47 +104,54 @@ export default class Home extends React.Component {
                     <Image source={require('../../assets/img/logo-app.png')}/>
 
                     <View style={ styles.container_button }>
-                        <Button large bordered 
-                            style={ styles.button }
-                            title="Main"
+
+                        <TouchableOpacity 
+                            style={ styles.touchable } 
                             onPress={() => this.props.navigation.navigate('Main', {
                                 langue: this.state.langue,
                                 cat: this.state.cat,
                                 favorites: this.state.favorites,
                                 updateFavorites: this._saveFavorites
                             })} >
-                            <Text style={ styles.button_text }>{ locales.home.btn_main }</Text>
-                        </Button>
+                            <View style={styles.view}>
+                                <Text style={ styles.label }>{ locales.home.btn_main }</Text>
+                            </View>
+                            <Image source={require('../../assets/img/btn_main_dark_vert.png')}  style={ styles.btn_background } />
+                        </TouchableOpacity>
 
-                        <Button large bordered
-                            style={ styles.button } 
-                            title="Settings"
+                        <TouchableOpacity 
+                            style={ styles.touchable } 
                             onPress={() => this.props.navigation.navigate('Settings', {
                                 langue: this.state.langue,
                                 cat: this.state.cat,
                                 updateValue: this._savePreferences
-                            })} >
-                            <Text style={ styles.button_text }>{ locales.home.btn_settings }</Text>
-                        </Button>
-
-                        <Button large bordered
-                            style={ styles.button } 
-                            title="Favorites"
+                            })}>
+                            <View style={styles.view}>
+                                <Text style={ styles.label }>{ locales.home.btn_settings }</Text>
+                            </View>
+                            <Image source={require('../../assets/img/btn_main_jaune.png')}  style={ styles.btn_background } />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity 
+                            style={ styles.touchable } 
                             onPress={() => this.props.navigation.navigate('Favorites', {
                                 langue: this.state.langue,
                                 cat: this.state.cat,
                                 favorites: this.state.favorites,
                                 updateFavorites: this._saveFavorites
-                            })} >
-                            <Text style={ styles.button_text }>{ locales.home.btn_favorites }</Text>
-                        </Button>
+                            })}>
+                            <View style={styles.view}>
+                                <Text style={ styles.label }>{ locales.home.btn_favorites }</Text>
+                            </View>
+                            <Image source={require('../../assets/img/btn_main_rouge.png')}  style={ styles.btn_background } />
+                        </TouchableOpacity>
 
-                        <Button large bordered
+                        {/* <Button large bordered
                             style={ styles.button } 
                             title="Facebook"
                             onPress={() => this._logIn()} >
                             <Text style={ styles.button_text }>{ 'Facebook' }</Text>
-                        </Button>
+                        </Button> */}
 
                     </View>
                 </Content>
@@ -167,14 +175,24 @@ const styles = StyleSheet.create({
     container_button: {
         marginTop: 20
     },
-    button: {
-        width: 200,
-        marginTop: 15,
-        alignSelf: 'center',
-        justifyContent: 'center'
+   
+    view: {
+        flex: 1,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        zIndex: 5
     },
-    button_text: {
-        //textAlign: 'center'
+    label: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        textAlign: 'center',
+    },
+    touchable: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10
     }
 
 });

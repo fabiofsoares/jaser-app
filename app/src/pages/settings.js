@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View , Image, Button, TouchableHighlight } from 'react-native';
-import { Container, Radio, Content, ListItem, Card, CardItem, Text, Body, Left, Right, Thumbnail, Icon, Toast } from "native-base";
+import { Container, Radio, Content, ListItem, Card, CardItem, Text, Body, Left, Right, Thumbnail } from "native-base";
 import { HeaderBackButton } from 'react-navigation';
 
 import global from '../config/global'
@@ -12,6 +12,7 @@ export default class Settings extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state
         return {
+            headerTitle:'Settings',
             headerLeft:(<HeaderBackButton onPress={()=>{ params.saveSettings() }}/>)
         }
     }
@@ -61,8 +62,8 @@ export default class Settings extends React.Component {
         return (
             <Container style={styles.container}>
                 <Content padder>
-                <Card>
-                    <CardItem header bordered>
+                <Card style={styles.card}>
+                    <CardItem header style={styles.headerLanguage}>
                         <Text>{locales.settings.title_language}</Text>
                     </CardItem>
                     <CardItem bordered>
@@ -104,8 +105,8 @@ export default class Settings extends React.Component {
                     </CardItem>
                     </Card>
 
-                    <Card>
-                    <CardItem footer bordered>
+                    <Card style={styles.card}>
+                    <CardItem header style={styles.headerCategory}>
                         <Text>{locales.settings.title_category}</Text>
                     </CardItem>
 
@@ -191,6 +192,16 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         justifyContent: 'center',
+    },
+    card: {
+        borderWidth: 10,
+        borderColor: '#070707'
+    },
+    headerLanguage:{
+        backgroundColor: '#F2D443'
+    },
+    headerCategory:{
+        backgroundColor: '#26BCAD'
     },
     languagesBody: {
         flexDirection: 'row',

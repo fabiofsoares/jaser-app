@@ -50,7 +50,8 @@ export default class FavoritesQuestions extends Component {
             })
             Toast.show({
                 text: "Rajouté sur favoris",
-                duration: 1200
+                duration: 1200,
+                style: { backgroundColor: "#26BCAD" }
             })
         } else {
             let array = [...this.state.favorites];
@@ -60,7 +61,8 @@ export default class FavoritesQuestions extends Component {
             });
             Toast.show({
                 text: "Supprimé sur favoris",
-                duration: 1200
+                duration: 1200,
+                style: { backgroundColor: "#FE7567" }
             })
         }
     }
