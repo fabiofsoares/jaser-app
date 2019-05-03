@@ -113,10 +113,10 @@ export default class QuestionsCarousel extends Component {
                             <Text style={ styles.indexText }>{item.index} / {this.props.data.length}</Text>
                         </ImageBackground >
                         <Right>
-                            <Icon name="star" 
-                                ref={c => this._start = c}
-                                style={ item.favorite ? styles.favoriteON : styles.favoriteOFF } 
-                                onPress={ () => this._addFavorite(item.id, this._start, item.favorite)}/>
+                            <TouchableOpacity onPress={ () => this._addFavorite(item.id, this._start, item.favorite) }>
+                                { item.favorite ? <Image source={require('../../assets/img/icons/star-on.png')} /> 
+                                : <Image source={require('../../assets/img/icons/star-off.png')} /> }
+                            </TouchableOpacity>
                         </Right>
                     </CardItem>
 

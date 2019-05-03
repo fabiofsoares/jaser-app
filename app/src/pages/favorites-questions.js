@@ -80,7 +80,6 @@ export default class FavoritesQuestions extends Component {
 
 const styles = StyleSheet.create({ 
     container: {
-        marginTop: 50,
-        padding: 15
+        padding: 10
     }
 })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { Container, Content, Toast, Button } from 'native-base';
+import { StyleSheet, View, Image, Text } from 'react-native';
+import { Container, Content, Toast } from 'native-base';
 import Questions from '../components/question-carousel'
 import global from '../config/global'
 
@@ -18,6 +18,16 @@ export default class Main extends Component {
             favorites: this.props.navigation.getParam('favorites'),
             langue: this.props.navigation.getParam('langue'),
             cat: this.props.navigation.getParam('cat')
+        }
+    }
+
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state
+        return {
+            headerTitle:(<View style={ styles.headerNav }>
+                            <Text>Game</Text>
+                            <Image style={ styles.headerImg } source={require('../../assets/img/icons/main.png')} />
+                        </View>)
         }
     }
 
@@ -159,5 +169,15 @@ export default class Main extends Component {
 const styles = StyleSheet.create({ 
     container: {
         padding: 15
+    },
+    headerNav: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    headerImg: {
+        position: 'relative',
+        left: 10
     }
 })

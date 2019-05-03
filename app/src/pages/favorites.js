@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ImageBackground, Image, View } from 'react-native';
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon, Badge } from 'native-base';
 
 import global from '../config/global'
@@ -19,6 +19,16 @@ export default class Favorites extends Component {
             favorites: this.props.navigation.getParam('favorites'),
             langue: this.props.navigation.getParam('langue'),
             cat: this.props.navigation.getParam('cat')
+        }
+    }
+
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state
+        return {
+            headerTitle:(<View style={ styles.headerNav }>
+                            <Text>Favorites</Text>
+                            <Image style={ styles.headerImg } source={require('../../assets/img/icons/star.png')} />
+                        </View>)
         }
     }
 
@@ -136,10 +146,12 @@ export default class Favorites extends Component {
                                         data: this.state.data.personality,
                                         favorites: this.state.favorites
                                     })} >
-                                    <Badge success>
-                                        <Text>{ this.state.data.personality.length }</Text>
-                                    </Badge>
-                                    <Icon name="arrow-forward" />
+                                   
+                                    <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
+                                        <Text style={ styles.badgeText }>{ this.state.data.personality.length }</Text>
+                                    </ImageBackground > 
+
+                                    <Image source={require('../../assets/img/icons/arrow-right.png')} /> 
                                 </Button>
                                 }
                             </Right>
@@ -156,10 +168,12 @@ export default class Favorites extends Component {
                                         data: this.state.data.experience,
                                         favorites: this.state.favorites
                                     })} >
-                                    <Badge success>
-                                        <Text>{ this.state.data.experience.length }</Text>
-                                    </Badge> 
-                                    <Icon name="arrow-forward" />
+
+                                    <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
+                                        <Text style={ styles.badgeText }>{ this.state.data.experience.length  }</Text>
+                                    </ImageBackground > 
+
+                                    <Image source={require('../../assets/img/icons/arrow-right.png')} /> 
                                 </Button>
                                 }
                             </Right>
@@ -176,10 +190,10 @@ export default class Favorites extends Component {
                                         data: this.state.data.opinions,
                                         favorites: this.state.favorites
                                     })} >
-                                    <Badge success>
-                                        <Text>{ this.state.data.opinions.length }</Text>
-                                    </Badge>
-                                    <Icon name="arrow-forward" />
+                                    <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
+                                        <Text style={ styles.badgeText }>{ this.state.data.opinions.length }</Text>
+                                    </ImageBackground >
+                                    <Image source={require('../../assets/img/icons/arrow-right.png')} /> 
                                 </Button>
                                 }
                             </Right>
@@ -196,10 +210,10 @@ export default class Favorites extends Component {
                                         data: this.state.data.preferences,
                                         favorites: this.state.favorites
                                     })} >
-                                    <Badge success>
-                                        <Text>{ this.state.data.preferences.length }</Text>
-                                    </Badge> 
-                                    <Icon name="arrow-forward" />
+                                    <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
+                                        <Text style={ styles.badgeText }>{ this.state.data.preferences.length }</Text>
+                                    </ImageBackground >
+                                    <Image source={require('../../assets/img/icons/arrow-right.png')} /> 
                                 </Button> 
                                 }
                             </Right>
@@ -212,5 +226,27 @@ export default class Favorites extends Component {
 }
 
 const styles = StyleSheet.create({
-    
+    badge :{
+        maxWidth: 35,
+        width: 35,
+        height: 35,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    badgeText: {
+        color: "#FFFFFF",
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    headerNav: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    headerImg: {
+        position: 'relative',
+        left: 10
+    }, 
 });

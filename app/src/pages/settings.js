@@ -12,7 +12,10 @@ export default class Settings extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state
         return {
-            headerTitle:'Settings',
+            headerTitle:(<View style={ styles.headerNav }>
+                            <Text>Settings</Text>
+                            <Image style={ styles.headerImg } source={require('../../assets/img/icons/settings.png')} />
+                        </View>),
             headerLeft:(<HeaderBackButton onPress={()=>{ params.saveSettings() }}/>)
         }
     }
@@ -62,11 +65,11 @@ export default class Settings extends React.Component {
         return (
             <Container style={styles.container}>
                 <Content padder>
-                <Card style={styles.card}>
+                <View style={ styles.card }>
                     <CardItem header style={styles.headerLanguage}>
-                        <Text>{locales.settings.title_language}</Text>
+                        <Text style={styles.headerText}>{locales.settings.title_language}</Text>
                     </CardItem>
-                    <CardItem bordered>
+                    <CardItem>
                         <Body style={styles.languagesBody}>
 
                             <View style={[this.state.langue === 'fr' && styles.activeLN, styles.contentLanguage]}>
@@ -74,7 +77,7 @@ export default class Settings extends React.Component {
                                     onPress={() => this._changeLanguage('fr')}>
                                     <Image source={require('../../assets/img/icons/ln-fr.png')} />
                                 </TouchableHighlight >
-                                <Text>{locales.settings.french}</Text>
+                                {/* <Text>{locales.settings.french}</Text> */}
                             </View>
 
                             <View style={[this.state.langue === 'pt' && styles.activeLN, styles.contentLanguage]}>
@@ -82,7 +85,7 @@ export default class Settings extends React.Component {
                                     onPress={() => this._changeLanguage('pt')}>
                                     <Image source={require('../../assets/img/icons/ln-pt.png')} />
                                 </TouchableHighlight>
-                                <Text>{locales.settings.portugues}</Text>
+                                {/* <Text>{locales.settings.portugues}</Text> */}
                             </View>
 
                             <View style={[this.state.langue === 'en' && styles.activeLN, styles.contentLanguage]}>
@@ -90,7 +93,7 @@ export default class Settings extends React.Component {
                                     onPress={() => this._changeLanguage('en')}>
                                     <Image source={require('../../assets/img/icons/ln-en.png')} />
                                 </TouchableHighlight>
-                                <Text>{locales.settings.english}</Text>
+                                {/* <Text>{locales.settings.english}</Text> */}
                             </View>
 
                             <View style={[this.state.langue === 'es' && styles.activeLN, styles.contentLanguage]}>
@@ -98,19 +101,19 @@ export default class Settings extends React.Component {
                                     onPress={() => this._changeLanguage('es')}>
                                     <Image source={require('../../assets/img/icons/ln-es.png')} />
                                 </TouchableHighlight >
-                                <Text>{locales.settings.spanish}</Text>
+                                {/* <Text>{locales.settings.spanish}</Text> */}
                             </View>
 
                         </Body>
                     </CardItem>
-                    </Card>
+                    </View>
 
-                    <Card style={styles.card}>
+                    <View style={[styles.card, styles.category]}>
                     <CardItem header style={styles.headerCategory}>
-                        <Text>{locales.settings.title_category}</Text>
+                        <Text style={styles.headerText}>{locales.settings.title_category}</Text>
                     </CardItem>
 
-                    <CardItem bordered>
+                    <CardItem >
                         <Body>
                             <ListItem  selected={this.state.cat.indexOf(global.cat.pers) !== -1 && true} 
                                         onPress={() => this._selectCategory(global.cat.pers)}>
@@ -120,11 +123,7 @@ export default class Settings extends React.Component {
                                         <Text style={styles.labelCategory}>{locales.settings.personality}</Text>
                                     </Left>
                                     <Right>
-                                        <Radio
-                                            color={"#f0ad4e"}
-                                            selectedColor={"#5cb85c"}
-                                            selected={this.state.cat.indexOf(global.cat.pers) !== -1 && true}
-                                        />
+                                        { this.state.cat.indexOf(global.cat.pers) !== -1 && <Image source={ require('../../assets/img/icons/checked.png')} />}
                                     </Right>
                                 </View>
                             </ListItem>
@@ -137,11 +136,7 @@ export default class Settings extends React.Component {
                                         <Text style={styles.labelCategory}>{locales.settings.experiences}</Text>
                                     </Left>
                                     <Right>
-                                        <Radio
-                                            color={"#f0ad4e"}
-                                            selectedColor={"#5cb85c"}
-                                            selected={this.state.cat.indexOf(global.cat.expe) !== -1 && true}
-                                        />
+                                        { this.state.cat.indexOf(global.cat.expe) !== -1 && <Image source={ require('../../assets/img/icons/checked.png')} />}
                                     </Right>
                                 </View>
                             </ListItem>
@@ -154,11 +149,7 @@ export default class Settings extends React.Component {
                                         <Text style={styles.labelCategory}>{locales.settings.preferences}</Text>
                                     </Left>
                                     <Right>
-                                        <Radio
-                                            color={"#f0ad4e"}
-                                            selectedColor={"#5cb85c"}
-                                            selected={this.state.cat.indexOf(global.cat.pref) !== -1 && true}
-                                        />
+                                        { this.state.cat.indexOf(global.cat.pref) !== -1 && <Image source={ require('../../assets/img/icons/checked.png')} />}
                                     </Right>
                                 </View>
                             </ListItem>
@@ -171,17 +162,13 @@ export default class Settings extends React.Component {
                                         <Text style={styles.labelCategory}>{locales.settings.opinions}</Text>
                                     </Left>
                                     <Right>
-                                        <Radio
-                                            color={"#f0ad4e"}
-                                            selectedColor={"#5cb85c"}
-                                            selected={this.state.cat.indexOf(global.cat.opin) !== -1 && true}
-                                        />
+                                        { this.state.cat.indexOf(global.cat.opin) !== -1 && <Image source={ require('../../assets/img/icons/checked.png')} />}
                                     </Right>
                                 </View>
                             </ListItem>
                         </Body>
                     </CardItem>
-                    </Card>
+                    </View>
                 </Content>
           </Container>
         );
@@ -193,30 +180,55 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
     },
+    headerNav: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    headerImg: {
+        position: 'relative',
+        left: 10
+    },  
     card: {
-        borderWidth: 10,
+        borderWidth: 2,
+        padding: 4,
         borderColor: '#070707'
+    },
+    category: {
+        marginTop: 15
+    },
+    headerText : {
+        color: '#070707'
     },
     headerLanguage:{
         backgroundColor: '#F2D443'
     },
     headerCategory:{
-        backgroundColor: '#26BCAD'
+        backgroundColor: '#F2D443'
     },
     languagesBody: {
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
     activeLN: {
-        borderWidth: 1,
-        borderColor: "#5cb85c"
-    },
+        borderWidth: 2,
+        //borderStyle: 'dotted',
+        borderColor: "#070707",
+        backgroundColor: '#26BCAD'
+    },   
     contentCategory:{
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        
+    },
+    listItem: {
+        borderWidth: 2,
+        borderColor: '#070707'
     },
     contentLanguage:{
-        width: 80,
+        width: '25%',
+        height: 60,
         alignItems: 'center',
         justifyContent: 'center'
     },
