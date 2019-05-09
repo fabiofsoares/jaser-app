@@ -15,6 +15,13 @@ export default class Home extends React.Component {
             favorites: []
         }
     }
+    
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state
+        return {
+            header: null
+        }
+    }
 
     componentDidMount(){
         this._savePreferences = this._savePreferences.bind(this)
@@ -144,6 +151,20 @@ export default class Home extends React.Component {
                                 <Text style={ styles.label }>{ locales.home.btn_favorites }</Text>
                             </View>
                             <Image source={require('../../assets/img/btn_main_rouge.png')}  style={ styles.btn_background } />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={ styles.touchable } 
+                            onPress={() => this.props.navigation.navigate('ApiMain', {
+                                langue: this.state.langue,
+                                cat: this.state.cat,
+                                favorites: this.state.favorites,
+                                updateFavorites: this._saveFavorites
+                            })}>
+                            <View style={styles.view}>
+                                <Text style={ styles.label }>{ locales.home.btn_api }</Text>
+                            </View>
+                            <Image source={require('../../assets/img/btn_main_blue.png')}  style={ styles.btn_background } />
                         </TouchableOpacity>
 
                         {/* <Button large bordered

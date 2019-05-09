@@ -13,6 +13,9 @@ export default class QuestionsCarousel extends Component {
             require('../../assets/img/colors-background/4.png'),
             require('../../assets/img/colors-background/5.png')
         ]
+        this.state = {
+            favorite : ''
+        }
     }
     
     componentDidMount(){
@@ -95,6 +98,7 @@ export default class QuestionsCarousel extends Component {
 
     render() {
         return (
+            <View style={{height:600}} >
             <DeckSwiper
                 ref={(c) => {this._deckSwiper = c}}
                 dataSource={this.props.data}
@@ -114,14 +118,14 @@ export default class QuestionsCarousel extends Component {
                         </ImageBackground >
                         <Right>
                             <TouchableOpacity onPress={ () => this._addFavorite(item.id, this._start, item.favorite) }>
-                                { item.favorite ? <Image source={require('../../assets/img/icons/star-on.png')} /> 
-                                : <Image source={require('../../assets/img/icons/star-off.png')} /> }
+                                { item.favorite ? <Image source={ require('../../assets/img/icons/star-on.png')} /> 
+                                : <Image source={ require('../../assets/img/icons/star-off.png')} /> }
                             </TouchableOpacity>
                         </Right>
                     </CardItem>
 
                     <CardItem cardBody style={ styles.cardBody } >
-                        <ImageBackground ref={(c) => { this._cardItem = c }} source={ this.background[ (item.index + 5) % 5] } style={ styles.imageBackground }>
+                        <ImageBackground resizeMode='contain' ref={(c) => { this._cardItem = c }} source={ this.background[ (item.index + 5) % 5] } style={ styles.imageBackground }>
                             <Text style={ styles.question }>{item.text}</Text>
                         </ImageBackground>
                     </CardItem>
@@ -140,7 +144,7 @@ export default class QuestionsCarousel extends Component {
                         </Right>
                     </CardItem>
                 </Card>
-            }/>
+            }/></View>
         );
     }
 }

@@ -7,6 +7,7 @@ import MainScreen from '../pages/main'
 import SettingsScreen from '../pages/settings'
 import FavoritesScreen from '../pages/favorites'
 import FavoritesQuestionsScreen from '../pages/favorites-questions'
+import ApiMainScreen from '../pages/api-main'
 
 const AppNavigator = createStackNavigator({
     Home: {
@@ -23,6 +24,9 @@ const AppNavigator = createStackNavigator({
     },
     FavoritesQuestions: {
         screen: FavoritesQuestionsScreen
+    },
+    ApiMain : {
+        screen: ApiMainScreen
     }
 });
 

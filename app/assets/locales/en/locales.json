@@ -1,6 +1,7 @@
 {
     "home": {
         "btn_main": "Main",
+        "btn_api": "Api",
         "btn_settings": "Settings",
         "btn_favorites": "My Favorites"
     },

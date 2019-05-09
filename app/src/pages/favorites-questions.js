@@ -40,38 +40,28 @@ export default class FavoritesQuestions extends Component {
         return array;
     }
 
-    _addFavorite(id){
+    _removeFavorite = (id) => {
         const index = this.state.favorites.indexOf(id);
-        if( index === -1){
-            this.setState(prevState => ({
-                favorites: [...prevState.favorites, id]
-            }), () => {
-                this.props.navigation.state.params.updateFavorites(this.state.favorites)
-            })
-            Toast.show({
-                text: "Rajouté sur favoris",
-                duration: 1200,
-                style: { backgroundColor: "#26BCAD" }
-            })
-        } else {
-            let array = [...this.state.favorites];
+        let array = [...this.state.favorites];
             array.splice(index, 1);
             this.setState({favorites: array}, () => {
-                this.props.navigation.state.params.updateFavorites(this.state.favorites)
+                //console.log('removed : ', this.props.navigation.state.params)
+                console.log(this)
+                //probleme avec le context... il faut garder le this de cette classe
+                //this.props.navigation.state.params.updateFavorites(this.state.favorites)
             });
             Toast.show({
                 text: "Supprimé sur favoris",
                 duration: 1200,
                 style: { backgroundColor: "#FE7567" }
-            })
-        }
+        })
     }
 
     render() {
         return (
             <Container style={ styles.container }>
                 <Content >
-                    <Questions data={ this.state.data } favorites={ this._addFavorite.bind(this) }/>                    
+                    <Questions data={ this.state.data } favorites={ this._removeFavorite.bind(this) }/>                    
                 </Content>
             </Container>
         );
