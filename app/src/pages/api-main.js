@@ -13,16 +13,16 @@ import global from '../config/global'
 export default class ApiMain extends Component {
     constructor(props){
         super(props)
-        // this.state = {
-        //     data: [],
-        //     favorites: this.props.navigation.getParam('favorites'),
-        //     langue: this.props.navigation.getParam('langue'),
-        //     cat: this.props.navigation.getParam('cat')
-        // }
+
+        this.state = {
+            data : [],
+            ren: false,
+            favorites: this.props.navigation.getParam('favorites')
+        }
     }
 
     static navigationOptions = ({ navigation }) => {
-        const { params = {} } = navigation.state
+        //const { params = {} } = navigation.state
         return {
             headerTitle:(<View style={ styles.headerNav }>
                             <Text>Game</Text>
@@ -33,103 +33,39 @@ export default class ApiMain extends Component {
 
     async _getQuestions () {
         const   language = this.props.navigation.getParam('langue'),
-                category = this.props.navigation.getParam('cat').join('-')
-
-          
-        
-
-        try {
-            let response = await fetch(
-              `http://localhost:3000/jaser-api/categories/${category}/${language}`,
-            );
-            let responseJson = await response.json();
-            console.log(responseJson);
-          } catch (error) {
-            console.error(error);
-          }
-        
-        
+                category = this.props.navigation.getParam('cat').join('-'),
+                url = 'http://localhost:3000/jaser-api/categories/'
+       
+        return await fetch(`${url + category}/${language}`)
+            .then(response => response.json())
     }
 
     componentWillMount() {
-        // this._renderData(this.props.navigation.getParam('favorites'))
-        this._getQuestions()
+        this._getQuestions().then( data => {
+            this.setState({
+                render: true, 
+                data :this._renderData(this.props.navigation.getParam('favorites'), data)
+            })
+        });
     }
 
     componentDidMount() {
-        // this._addFavorite = this._addFavorite.bind(this)
+        this._addFavorite = this._addFavorite.bind(this)
     }
 
-    _renderData( _arrayFavorites ){
+    _renderData( _arrayFavorites, json ){
         _array = []
         
-        if(this.state.cat.indexOf(global.cat.pers) !== -1){
-            _personality.map((item) => {
-                item.data.map((question) => {
-                    if(question.langue === this.state.langue){
-                        _array.push({
-                            id: item._id,
-                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
-                            category: global.cat.pers,
-                            icon: require('../../assets/img/icons/personality.png'),
-                            text: question.question
-                        })
-                    }
-                })
+        json.data.map((item, i) => {
+            _array.push({
+                id: item._id,
+                favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
+                category: item.category,
+                text: item.data[0].question
             })
-        }
-        
-        if (this.state.cat.indexOf(global.cat.expe) !== -1){
-            _experience.map((item) => {
-                item.data.map((question) => {
-                    if(question.langue === this.state.langue){
-                        _array.push({
-                            id: item._id,
-                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
-                            category: global.cat.expe,
-                            icon: require('../../assets/img/icons/experience.png'),
-                            text: question.question
-                        })
-                    }
-                })
-            })
-        }
-
-        if (this.state.cat.indexOf(global.cat.opin) !== -1){
-            _opinions.map((item) => {
-                item.data.map((question) => {
-                    if(question.langue === this.state.langue){
-                        _array.push({
-                            id: item._id,
-                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
-                            category: global.cat.opin,
-                            icon: require('../../assets/img/icons/opinion.png'),
-                            text: question.question
-                        })
-                    }
-                })
-            })
-        }
-
-        if (this.state.cat.indexOf(global.cat.pref) !== -1){
-            _preferences.map((item) => {
-                item.data.map((question) => {
-                    if(question.langue === this.state.langue){
-                        _array.push({
-                            id: item._id,                            
-                            favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
-                            category: global.cat.pref,
-                            icon: require('../../assets/img/icons/preference.png'),
-                            text: question.question
-                        })
-                    }
-                })
-            })
-        }
-        
-        this.setState({
-            data: this._shuffleArray( _array)
         })
+
+        return this._shuffleArray( _array)
     }
 
     _shuffleArray(array) {
@@ -176,12 +112,11 @@ export default class ApiMain extends Component {
 
     render() {
         return (
-            <Container style={ styles.container } >
+             <Container style={ styles.container } >
                 <Content>
-                    {/* <Questions 
-                        data={this.state.data} 
-                        favorites={ this._addFavorite.bind(this) } />                     */}
-                        <Text>API Main</Text>
+                    { this.state.render && 
+                    <Questions data={this.state.data} 
+                    favorites={ this._addFavorite.bind(this) } /> }
                 </Content>
             </Container>
         );

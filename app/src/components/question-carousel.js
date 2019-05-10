@@ -16,6 +16,7 @@ export default class QuestionsCarousel extends Component {
         this.state = {
             favorite : ''
         }
+        console.log('PROPS : ', this.props)
     }
     
     componentDidMount(){

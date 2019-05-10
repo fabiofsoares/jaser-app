@@ -4,6 +4,8 @@ import { Container, Text, Button, Content, Toast } from 'native-base';
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
 import {_storeData, _getData} from '../config/persiste'
+import { _getFetch } from '../config/fetch'
+import { shuffleArray, addIndex } from '../config/services'
 
 export default class Home extends React.Component {
     constructor(props){
@@ -26,7 +28,7 @@ export default class Home extends React.Component {
     componentDidMount(){
         this._savePreferences = this._savePreferences.bind(this)
         this._saveFavorites = this._saveFavorites.bind(this)
-        this._logIn = this._logIn.bind(this)
+        //this._logIn = this._logIn.bind(this)
     }
 
     _savePreferences(data){
@@ -64,6 +66,8 @@ export default class Home extends React.Component {
                 this.setState({
                     langue: data.langue ? data.langue : global.DEFAULT_PREF.langue,
                     cat: data.cat ? data.cat : global.DEFAULT_PREF.category
+                }, () => {
+                    this._getData();
                 })
             }
         })
@@ -78,29 +82,52 @@ export default class Home extends React.Component {
         })
     }
 
-    async _logIn() {
-        console.log('login facebook')
-        try {
-          const {
-            type,
-            token,
-            expires,
-            permissions,
-            declinedPermissions,
-          } = await Expo.Facebook.logInWithReadPermissionsAsync('538134860047118', {
-            permissions: ['public_profile'],
-          });
-          if (type === 'success') {
-            // Get the user's name using Facebook's Graph API
-            const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-            Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-          } else {
-            // type === 'cancel'
-          }
-        } catch ({ message }) {
-          alert(`Facebook Login Error: ${message}`);
-        }
-    }   
+    _getData() {
+        const params = `categories/${this.state.cat.join('-')}/${this.state.langue}`
+
+        _getFetch(params).then( data => {
+            console.log('home', data)
+        });
+    }
+
+    // _renderArrayData( _arrayFavorites, json ){
+    //     _array = []
+        
+    //     json.data.map((item, i) => {
+    //         _array.push({
+    //             id: item._id,
+    //             favorite: _arrayFavorites.indexOf(item._id) !== -1 && true,
+    //             category: item.category,
+    //             text: item.data[0].question
+    //         })
+    //     })
+
+    //     return this._shuffleArray( _array)
+    // }
+
+    // async _logIn() {
+    //     console.log('login facebook')
+    //     try {
+    //       const {
+    //         type,
+    //         token,
+    //         expires,
+    //         permissions,
+    //         declinedPermissions,
+    //       } = await Expo.Facebook.logInWithReadPermissionsAsync('538134860047118', {
+    //         permissions: ['public_profile'],
+    //       });
+    //       if (type === 'success') {
+    //         // Get the user's name using Facebook's Graph API
+    //         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+    //         Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+    //       } else {
+    //         // type === 'cancel'
+    //       }
+    //     } catch ({ message }) {
+    //       alert(`Facebook Login Error: ${message}`);
+    //     }
+    // }   
 
     render() {
         
