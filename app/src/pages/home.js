@@ -24,38 +24,12 @@ export default class Home extends React.Component {
     componentDidMount(){
         this._savePreferences = this._savePreferences.bind(this)
         this._saveFavorites = this._saveFavorites.bind(this)
-        //this._logIn = this._logIn.bind(this)
-    }
-
-    _savePreferences(data){
-        let difference = this.state.cat
-                 .filter(x => !data.cat.includes(x))
-                 .concat(data.cat.filter(x => !this.state.cat.includes(x)));
-        
-        if((data.langue !== this.state.langue) || (difference.length > 0)) {
-            this.setState({
-                langue : data.langue,
-                cat: data.cat
-            }, () => {
-                _storeData(global.KEYS.PREF, data)
-                Toast.show({
-                    text: "Enregistrées",
-                    duration: 2000,
-                    style: { backgroundColor: "#26BCAD" }
-                })
-            })
-        } 
-    }
-
-    _saveFavorites(data){
-        this.setState({
-            favorites: data
-        }, () => {
-            _storeData(global.KEYS.FAV, this.state.favorites)
-        })
     }
 
     componentWillMount(){
+
+        this._getAllData()
+
         _getData(global.KEYS.PREF).then((json)=>{
             if(json !== null){
                 const data = JSON.parse(json);
@@ -78,6 +52,77 @@ export default class Home extends React.Component {
         })
     }
 
+    _savePreferences(data){
+        let difference = this.state.cat
+                 .filter(x => !data.cat.includes(x))
+                 .concat(data.cat.filter(x => !this.state.cat.includes(x)));
+        
+        if((data.langue !== this.state.langue) || (difference.length > 0)) {
+            this.setState({
+                langue : data.langue,
+                cat: data.cat
+            }, () => {
+                _storeData(global.KEYS.PREF, data)
+                this._getData()
+                Toast.show({
+                    text: "Enregistrées",
+                    duration: 2000,
+                    style: { backgroundColor: "#26BCAD" }
+                })
+            })
+        } 
+    }
+
+    _saveFavorites(data){
+        this.setState({
+            favorites: data
+        }, () => {
+            _storeData(global.KEYS.FAV, this.state.favorites)
+        })
+    }
+
+    _getAllData() {
+        const params = `questions/`
+        try {
+            _getFetch(params).then( data => {
+                _storeData(global.KEYS.QUES, data.data)
+            });
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    _getLocalData() {
+        _getData(global.KEYS.QUES).then((json)=>{
+                if(json !== null) {
+                    this.setState({ 
+                        questions: this._renderLocalData(JSON.parse(json))
+                    })
+                }
+        })
+    }
+
+    _renderLocalData(data) {
+        const _array = [];
+        
+        data.map(item => {
+            if(this.state.cat.indexOf(item.category) !== -1){
+                item.data.map(question => {
+                    if(question.langue === this.state.langue){ 
+                        _array.push({
+                            id: item._id,
+                            favorite: false,
+                            category: item.category,
+                            text: question.question
+                        })
+                    }
+                })
+            }
+        })
+        
+        return _array;
+    }
+
     _getData() {
         const params = `categories/${this.state.cat.join('-')}/${this.state.langue}`
 
@@ -85,35 +130,19 @@ export default class Home extends React.Component {
             _getFetch(params).then( data => {
                 this.setState({
                     questions : this._renderArrayData(data)
-                }, () => {
-                    _storeData(global.KEYS.QUES, this.state.questions)
                 })
             });
 
         } catch (err) {
             console.log(err)
-            // _getData(global.KEYS.QUES).then((json)=>{
-            //     if(json !== null){
-            //         const data = JSON.parse(json);
-            //         this.setState({ 
-            //             questions: data
-            //         })
-            //     }
-            // })
+            // this._getLocalData()
 
         } finally {
-            // _getData(global.KEYS.QUES).then((json)=>{
-            //     if(json !== null){
-            //         const data = JSON.parse(json);
-            //         this.setState({ 
-            //             questions: data
-            //         })
-            //     }
-            // })
+           // this._getLocalData()
         }
     }
 
-    _renderArrayData( json ){
+    _renderArrayData(json) {
         _array = []
         
         json.data.map((item, i) => {
@@ -128,37 +157,14 @@ export default class Home extends React.Component {
         return shuffleArray( _array)
     }
 
-    // async _logIn() {
-    //     console.log('login facebook')
-    //     try {
-    //       const {
-    //         type,
-    //         token,
-    //         expires,
-    //         permissions,
-    //         declinedPermissions,
-    //       } = await Expo.Facebook.logInWithReadPermissionsAsync('538134860047118', {
-    //         permissions: ['public_profile'],
-    //       });
-    //       if (type === 'success') {
-    //         // Get the user's name using Facebook's Graph API
-    //         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-    //         Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-    //       } else {
-    //         // type === 'cancel'
-    //       }
-    //     } catch ({ message }) {
-    //       alert(`Facebook Login Error: ${message}`);
-    //     }
-    // }   
-
     render() {
         
         return (
             <Container style={ styles.container }>
 
                 <Content contentContainerStyle={styles.content}>
-                    <Image source={require('../../assets/img/logo-app.png')}/>
+
+                    <Image source={ require('../../assets/img/logo-app.png') }/>
 
                     <View style={ styles.container_button }>
 
@@ -202,25 +208,15 @@ export default class Home extends React.Component {
                         
                         <TouchableOpacity style={ styles.touchable } 
                             onPress={() => this.props.navigation.navigate('Favorites', {
-                                langue: this.state.langue,
-                                cat: this.state.cat,
                                 favorites: this.state.favorites,
-                                updateFavorites: this._saveFavorites
+                                updateFavorites: this._saveFavorites,
+                                questions: this.state.questions
                             })}>
                             <View style={ styles.view }>
                                 <Text style={ styles.label }>{ locales.home.btn_favorites }</Text>
                             </View>
                             <Image source={require('../../assets/img/btn_main_rouge.png')}  style={ styles.btn_background } />
                         </TouchableOpacity>
-
-                        
-
-                        {/* <Button large bordered
-                            style={ styles.button } 
-                            title="Facebook"
-                            onPress={() => this._logIn()} >
-                            <Text style={ styles.button_text }>{ 'Facebook' }</Text>
-                        </Button> */}
 
                     </View>
                 </Content>

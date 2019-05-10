@@ -16,11 +16,14 @@ export default class Favorites extends Component {
         super(props)
         this.state = {
             data: {},
-            favorites: this.props.navigation.getParam('favorites')
+            favorites: this.props.navigation.getParam('favorites'),
+            langue: this.props.navigation.getParam('langue'),
+            cat: this.props.navigation.getParam('cat')
         }
     }
 
-    static navigationOptions = () => {
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state
         return {
             headerTitle:(<View style={ styles.headerNav }>
                             <Text>Favorites</Text>
@@ -33,45 +36,84 @@ export default class Favorites extends Component {
         this._renderData()
     }
 
-    _renderData() {
-
-        const questions = this.props.navigation.getParam('questions')
-
+    _renderData( ){
         _arrayPersonality = []
         _arrayOpinions = []
         _arrayPreferences = []
         _arrayExperiences = []
+        
+        if(this.state.cat.indexOf(global.cat.pers) !== -1){
+            _personality.map((item) => {
+                if(this.state.favorites.indexOf(item._id) !== -1){
+                    item.data.map((question) => {
+                        if(question.langue === this.state.langue){
+                            _arrayPersonality.push({
+                                id: item._id,
+                                favorite: true,
+                                category: global.cat.pers,
+                                icon: require('../../assets/img/icons/personality.png'),
+                                text: question.question
+                            })
+                        }
+                    })
+                }
+            })
+        }
+        
+        if (this.state.cat.indexOf(global.cat.expe) !== -1){
+            _experience.map((item) => {
+                if(this.state.favorites.indexOf(item._id) !== -1){
+                    item.data.map((question) => {
+                        if(question.langue === this.state.langue){
+                            _arrayExperiences.push({
+                                id: item._id,
+                                favorite: true,
+                                category: global.cat.expe,
+                                icon: require('../../assets/img/icons/experience.png'),
+                                text: question.question
+                            })
+                        }
+                    })
+                }
+            })
+        }
 
-        questions.map((item) => {
-            
-            switch (item.category) {
-                case 'opinions':
-                    if(this.state.favorites.indexOf(item.id) !== -1) {
-                        item.favorite = true
-                        _arrayOpinions.push(item)
-                    }
-                  break;
-                case 'personality':
-                    if(this.state.favorites.indexOf(item.id) !== -1) {
-                        item.favorite = true
-                        _arrayPersonality.push(item)
-                    }
-                    break;
-                case 'preferences':
-                    if(this.state.favorites.indexOf(item.id) !== -1) {
-                        item.favorite = true
-                        _arrayPreferences.push(item)
-                    }
-                    break;
-                default:
-                    if(this.state.favorites.indexOf(item.id) !== -1) {
-                        item.favorite = true
-                        _arrayExperiences.push(item)
-                    }
-              }
-            
-        })
+        if (this.state.cat.indexOf(global.cat.opin) !== -1){
+            _opinions.map((item) => {
+                if(this.state.favorites.indexOf(item._id) !== -1){
+                    item.data.map((question) => {
+                        if(question.langue === this.state.langue){
+                            _arrayOpinions.push({
+                                id: item._id,
+                                favorite: true,
+                                category: global.cat.opin,
+                                icon: require('../../assets/img/icons/opinion.png'),
+                                text: question.question
+                            })
+                        }
+                    })
+                }
+            })
+        }
 
+        if (this.state.cat.indexOf(global.cat.pref) !== -1){
+            _preferences.map((item) => {
+                if(this.state.favorites.indexOf(item._id) !== -1){
+                    item.data.map((question) => {
+                        if(question.langue === this.state.langue){
+                            _arrayPreferences.push({
+                                id: item._id,                            
+                                favorite: true,
+                                category: global.cat.pref,
+                                icon: require('../../assets/img/icons/preference.png'),
+                                text: question.question
+                            })
+                        }
+                    })
+                }
+            })
+        }
+        
         this.setState({
             data: {
                 experience: _arrayExperiences,
