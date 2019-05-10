@@ -13,10 +13,11 @@ export default class QuestionsCarousel extends Component {
             require('../../assets/img/colors-background/4.png'),
             require('../../assets/img/colors-background/5.png')
         ]
+        
         this.state = {
             favorite : ''
         }
-        console.log('PROPS : ', this.props)
+        
     }
     
     componentDidMount(){

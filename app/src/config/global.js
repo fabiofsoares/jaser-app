@@ -11,7 +11,8 @@ module.exports = {
     },
     KEYS: {
       PREF: 'PREFERENCES',
-      FAV: 'FAVORITES'
+      FAV: 'FAVORITES',
+      QUES: 'QUESTIONS'
     },
     DEFAULT_PREF: {
       langue: 'fr',

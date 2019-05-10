@@ -1,5 +1,4 @@
 async function _getFetch ( params ) {
-    console.log(params)
     const url = 'http://localhost:3000/jaser-api/'
     
     try {
