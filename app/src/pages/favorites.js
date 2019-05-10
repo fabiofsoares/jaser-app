@@ -88,6 +88,7 @@ export default class Favorites extends Component {
             <Container>
                 <Content>
                     <List>
+                        
                         <ListItem>
                             <Left>
                                 <Thumbnail style={{marginRight: 15}} small square source={require('../../assets/img/icons/personality.png')} />
@@ -96,7 +97,7 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.personality.length > 0 &&
                                 <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                    onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.personality,
                                         favorites: this.state.favorites
                                     })} >
@@ -110,6 +111,7 @@ export default class Favorites extends Component {
                                 }
                             </Right>
                         </ListItem>
+
                         <ListItem>
                             <Left>
                                 <Thumbnail style={{marginRight: 15}} small square source={require('../../assets/img/icons/experience.png')} />
@@ -118,7 +120,7 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.experience.length > 0 &&
                                 <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                    onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.experience,
                                         favorites: this.state.favorites
                                     })} >
@@ -132,6 +134,7 @@ export default class Favorites extends Component {
                                 }
                             </Right>
                         </ListItem>
+
                         <ListItem>
                             <Left>
                                 <Thumbnail style={{marginRight: 15}} small square source={require('../../assets/img/icons/opinion.png')} />
@@ -140,7 +143,7 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.opinions.length > 0 &&
                                 <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                    onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.opinions,
                                         favorites: this.state.favorites
                                     })} >
@@ -152,6 +155,7 @@ export default class Favorites extends Component {
                                 }
                             </Right>
                         </ListItem>
+
                         <ListItem>
                             <Left>
                                 <Thumbnail style={{marginRight: 15}} small square source={require('../../assets/img/icons/preference.png')} />
@@ -160,7 +164,7 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.preferences.length > 0 &&
                                 <Button transparent
-                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                    onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.preferences,
                                         favorites: this.state.favorites
                                     })} >
@@ -172,6 +176,7 @@ export default class Favorites extends Component {
                                 }
                             </Right>
                         </ListItem>
+
                     </List>
                 </Content>
             </Container>

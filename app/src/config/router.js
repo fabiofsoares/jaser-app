@@ -3,18 +3,13 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 //Pages
 import HomeScreen from '../pages/home'
-import MainScreen from '../pages/main'
 import SettingsScreen from '../pages/settings'
 import FavoritesScreen from '../pages/favorites'
-import FavoritesQuestionsScreen from '../pages/favorites-questions'
-import ApiMainScreen from '../pages/api-main'
+import GameScreen from '../pages/game'
 
 const AppNavigator = createStackNavigator({
     Home: {
         screen: HomeScreen
-    },
-    Main: {
-        screen: MainScreen
     },
     Settings: {
         screen: SettingsScreen
@@ -22,11 +17,8 @@ const AppNavigator = createStackNavigator({
     Favorites: {
         screen: FavoritesScreen
     },
-    FavoritesQuestions: {
-        screen: FavoritesQuestionsScreen
-    },
-    ApiMain : {
-        screen: ApiMainScreen
+    Game : {
+        screen: GameScreen
     }
 });
 

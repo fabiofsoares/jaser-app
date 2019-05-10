@@ -172,23 +172,9 @@ export default class Home extends React.Component {
                     <Image source={ require('../../assets/img/logo-app.png') }/>
 
                     <View style={ styles.container_button }>
-
-                        {/* <TouchableOpacity 
-                            style={ styles.touchable } 
-                            onPress={() => this.props.navigation.navigate('Main', {
-                                langue: this.state.langue,
-                                cat: this.state.cat,
-                                favorites: this.state.favorites,
-                                updateFavorites: this._saveFavorites
-                            })} >
-                            <View style={styles.view}>
-                                <Text style={ styles.label }>{ locales.home.btn_main }</Text>
-                            </View>
-                            <Image source={require('../../assets/img/btn_main_dark_vert.png')}  style={ styles.btn_background } />
-                        </TouchableOpacity> */}
-
+                    
                         <TouchableOpacity style={ styles.touchable } 
-                            onPress={() => this.props.navigation.navigate('ApiMain', {
+                            onPress={() => this.props.navigation.navigate('Game', {
                                 favorites: this.state.favorites,
                                 updateFavorites: this._saveFavorites,
                                 questions: this.state.questions
