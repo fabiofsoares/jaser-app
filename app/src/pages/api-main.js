@@ -9,7 +9,7 @@ export default class ApiMain extends Component {
         super(props)
 
         this.state = {
-            data : [],
+            data : this.props.navigation.getParam('questions'),
             favorites: this.props.navigation.getParam('favorites')
         }
     }
@@ -23,25 +23,8 @@ export default class ApiMain extends Component {
         }
     }
 
-    componentWillMount() {
-        this._renderData(
-            this.props.navigation.getParam('favorites'), 
-            this.props.navigation.getParam('questions'))
-    }
-
     componentDidMount() {
         this._addFavorite = this._addFavorite.bind(this)
-    }
-
-    _renderData( _arrayFavorites, json ){
-        
-        for(let i = 0; i < json.length; i++) {
-            if(_arrayFavorites.indexOf(json[i].id) !== -1 ){
-                json[i].favorite = true
-            }
-        }
-
-        this.setState({ data: json })
     }
 
     _addFavorite(id){
@@ -80,7 +63,7 @@ export default class ApiMain extends Component {
     }
 
     render() {
-        
+        console.log(this.state)
         return (
              <Container style={ styles.container } >
                 <Content>

@@ -4,41 +4,25 @@ import { Container, Content, Toast } from 'native-base';
 import Questions from '../components/question-carousel'
 import global from '../config/global'
 
-//Questions Locales
-import _personality from '../../assets/locales/questions/personality.json'
-import _experience from '../../assets/locales/questions/experience.json'
-import _opinions from '../../assets/locales/questions/opinions.json'
-import _preferences from '../../assets/locales/questions/preferences.json'
+
 
 export default class FavoritesQuestions extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: [],
+            data: this.props.navigation.getParam('data'),
             favorites: this.props.navigation.getParam('favorites')
         }
     }
 
     componentWillMount() {
-        this._renderData(this.props.navigation.getParam('data'))
+        
     }
 
     componentDidMount() {
         //this._addFavorite = this._addFavorite.bind(this)
     }
 
-    _renderData( data ){
-        this.setState({
-            data: this._addIndex(data)
-        })
-    }
-
-    _addIndex(array) {
-        for(let i = 0; i < array.length; i++){
-            array[i].index = i + 1;
-        }
-        return array;
-    }
 
     _removeFavorite = (id) => {
         const index = this.state.favorites.indexOf(id);

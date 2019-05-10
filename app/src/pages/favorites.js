@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, Image, View } from 'react-native';
-import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Icon, Badge } from 'native-base';
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
 import global from '../config/global'
 import locales from '../../assets/locales/en/locales.json'
 
 //Questions Locales
-import _personality from '../../assets/locales/questions/personality.json'
-import _experience from '../../assets/locales/questions/experience.json'
-import _opinions from '../../assets/locales/questions/opinions.json'
-import _preferences from '../../assets/locales/questions/preferences.json'
 
 export default class Favorites extends Component { 
     constructor(props){
@@ -68,7 +64,7 @@ export default class Favorites extends Component {
                         item.favorite = true
                         _arrayExperiences.push(item)
                     }
-              }
+            }
             
         })
 
@@ -87,7 +83,7 @@ export default class Favorites extends Component {
     }
 
     render(){
-        //console.log('render', this.state.data)
+        
         return (
             <Container>
                 <Content>
@@ -100,8 +96,8 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.personality.length > 0 &&
                                 <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.personality,
+                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                        questions: this.state.data.personality,
                                         favorites: this.state.favorites
                                     })} >
                                    
@@ -122,8 +118,8 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.experience.length > 0 &&
                                 <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.experience,
+                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                        questions: this.state.data.experience,
                                         favorites: this.state.favorites
                                     })} >
 
@@ -144,8 +140,8 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.opinions.length > 0 &&
                                 <Button transparent 
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.opinions,
+                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                        questions: this.state.data.opinions,
                                         favorites: this.state.favorites
                                     })} >
                                     <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
@@ -164,8 +160,8 @@ export default class Favorites extends Component {
                             <Right>
                                 { this.state.data.preferences.length > 0 &&
                                 <Button transparent
-                                    onPress={() => this.props.navigation.navigate('FavoritesQuestions', {
-                                        data: this.state.data.preferences,
+                                    onPress={() => this.props.navigation.navigate('ApiMain', {
+                                        questions: this.state.data.preferences,
                                         favorites: this.state.favorites
                                     })} >
                                     <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>

@@ -37,7 +37,7 @@ export default class Home extends React.Component {
                     langue: data.langue ? data.langue : global.DEFAULT_PREF.langue,
                     cat: data.cat ? data.cat : global.DEFAULT_PREF.category
                 }, () => {
-                    this._getData();
+                    this._getApiData();
                 })
             }
         })
@@ -63,7 +63,9 @@ export default class Home extends React.Component {
                 cat: data.cat
             }, () => {
                 _storeData(global.KEYS.PREF, data)
-                this._getData()
+                
+                this._getApiData()
+                
                 Toast.show({
                     text: "Enregistrées",
                     duration: 2000,
@@ -111,7 +113,7 @@ export default class Home extends React.Component {
                     if(question.langue === this.state.langue){ 
                         _array.push({
                             id: item._id,
-                            favorite: false,
+                            favorite: this.state.favorites.indexOf(item._id) !== -1 && true,
                             category: item.category,
                             text: question.question
                         })
@@ -123,32 +125,35 @@ export default class Home extends React.Component {
         return _array;
     }
 
-    _getData() {
+    _getApiData() {
         const params = `categories/${this.state.cat.join('-')}/${this.state.langue}`
 
         try {
             _getFetch(params).then( data => {
-                this.setState({
-                    questions : this._renderArrayData(data)
-                })
+                if(data !== false){
+                    console.log('API')
+                    this.setState({
+                        questions : this._renderArrayData(data)
+                    })
+                } else {
+                    console.log('LOCAL')
+                    this._getLocalData()
+                }
             });
 
-        } catch (err) {
+        } catch(err){
             console.log(err)
-            // this._getLocalData()
-
-        } finally {
-           // this._getLocalData()
+            this._getLocalData()
         }
     }
 
     _renderArrayData(json) {
         _array = []
-        
+
         json.data.map((item, i) => {
             _array.push({
                 id: item._id,
-                favorite: false,
+                favorite: this.state.favorites.indexOf(item._id) !== -1 && true,
                 category: item.category,
                 text: item.data[0].question
             })
