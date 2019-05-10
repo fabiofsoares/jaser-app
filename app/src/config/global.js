@@ -7,7 +7,9 @@ module.exports = {
     },
     color: {
       white:"#FFFFFF",
-      black: "#252525"
+      black: "#252525",
+      green: '#26BCAD',
+      red: '#FE7567'
     },
     KEYS: {
       PREF: 'PREFERENCES',
@@ -16,6 +18,6 @@ module.exports = {
     },
     DEFAULT_PREF: {
       langue: 'fr',
-      category: ["opinions", "personality", "preferences", "experience"]
+      category: ['opinions', 'personality', 'preferences', 'experience']
     }
   };

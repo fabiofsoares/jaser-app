@@ -42,7 +42,7 @@ export default class ApiMain extends Component {
             Toast.show({
                 text: "Rajouté sur favoris",
                 duration: 1200,
-                style: { backgroundColor: "#26BCAD" }
+                style: { backgroundColor: global.color.green }
             })
 
         } else {
@@ -57,7 +57,7 @@ export default class ApiMain extends Component {
             Toast.show({
                 text: "Supprimé sur favoris",
                 duration: 1200,
-                style: { backgroundColor: "#FE7567" }
+                style: { backgroundColor: global.color.red }
             })
         }
     }
