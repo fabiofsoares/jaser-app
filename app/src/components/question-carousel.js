@@ -127,8 +127,8 @@ export default class QuestionsCarousel extends Component {
                     </CardItem>
 
                     <CardItem cardBody style={ styles.cardBody } >
-                        <ImageBackground resizeMode='contain' ref={(c) => { this._cardItem = c }} source={ this.background[ (item.index + 5) % 5] } style={ styles.imageBackground }>
-                            <Text style={ styles.question }>{item.text}</Text>
+                        <ImageBackground resizeMode='contain' ref={(c) => { this._cardItem = c }} source={ this.background[(item.index + 5) % 5]} style={ styles.imageBackground }>
+                           <Text style={ styles.question }>{item.text}</Text>
                         </ImageBackground>
                     </CardItem>
                     

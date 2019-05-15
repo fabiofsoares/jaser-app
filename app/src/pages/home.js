@@ -13,8 +13,8 @@ export default class Home extends React.Component {
         
         this.state = {
             questions: [],
-            langue: '',
-            cat: [],
+            langue: global.DEFAULT_PREF.langue,
+            cat: global.DEFAULT_PREF.category,
             favorites: []
         }
     }
@@ -24,18 +24,19 @@ export default class Home extends React.Component {
     componentDidMount(){
         this._savePreferences = this._savePreferences.bind(this)
         this._saveFavorites = this._saveFavorites.bind(this)
+        this.state.questions.length === 0 && this._getLocalData()
     }
 
     componentWillMount(){
 
         this._getAllData()
-
+       
         _getData(global.KEYS.PREF).then((json)=>{
             if(json !== null){
                 const data = JSON.parse(json);
                 this.setState({
-                    langue: data.langue ? data.langue : global.DEFAULT_PREF.langue,
-                    cat: data.cat ? data.cat : global.DEFAULT_PREF.category
+                    langue: data.langue,
+                    cat: data.cat
                 }, () => {
                     this._getApiData();
                 })
@@ -97,10 +98,13 @@ export default class Home extends React.Component {
     _getLocalData() {
         _getData(global.KEYS.QUES).then((json)=>{
                 if(json !== null) {
+                    let _array = this._renderLocalData(JSON.parse(json))   
+                    
                     this.setState({ 
-                        questions: this._renderLocalData(JSON.parse(json))
+                        questions: _array 
                     })
                 }
+                
         })
     }
 
@@ -122,7 +126,7 @@ export default class Home extends React.Component {
             }
         })
         
-        return _array;
+        return shuffleArray( _array)
     }
 
     _getApiData() {
@@ -162,8 +166,7 @@ export default class Home extends React.Component {
         return shuffleArray( _array)
     }
 
-    render() {
-        
+    render() {       
         return (
             <Container style={ styles.container }>
 

@@ -62,8 +62,7 @@ export default class ApiMain extends Component {
         }
     }
 
-    render() {
-        console.log(this.state)
+    render() {        
         return (
              <Container style={ styles.container } >
                 <Content>
