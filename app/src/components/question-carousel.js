@@ -25,9 +25,9 @@ export default class QuestionsCarousel extends Component {
         this._snapShot = this._snapShot.bind(this)
     }
     
-    _addFavorite(id, star, favorite){
+    _addFavorite(id, self){
         //star.style(favorite ? styles.favoriteON : styles.favoriteOFF);
-        this.props.favorites(id)
+        this.props.favorites(id, self)
     }
   
     share(file){
@@ -119,7 +119,7 @@ export default class QuestionsCarousel extends Component {
                             <Text style={ styles.indexText }>{item.index} / {this.props.data.length}</Text>
                         </ImageBackground >
                         <Right>
-                            <TouchableOpacity onPress={ () => this._addFavorite(item.id, this._start, item.favorite) }>
+                            <TouchableOpacity onPress={ () => this._addFavorite(item.id, this.props.self) }>
                                 { item.favorite ? <Image source={ require('../../assets/img/icons/star-on.png')} /> 
                                 : <Image source={ require('../../assets/img/icons/star-off.png')} /> }
                             </TouchableOpacity>

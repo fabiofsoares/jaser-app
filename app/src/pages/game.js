@@ -10,7 +10,8 @@ export default class ApiMain extends Component {
 
         this.state = {
             data : this.props.navigation.getParam('questions'),
-            favorites: this.props.navigation.getParam('favorites')
+            favorites: this.props.navigation.getParam('favorites'),
+            self: this.props.navigation.getParam('self') && this.props.navigation.getParam('favorites')
         }
     }
 
@@ -27,31 +28,16 @@ export default class ApiMain extends Component {
         this._addFavorite = this._addFavorite.bind(this)
     }
 
-    _addFavorite(id){
-
+    _addFavorite(id, self){        
         const index = this.state.favorites.indexOf(id);
-        
-        if( index === -1){
 
-            this.setState(prevState => ({
-                favorites: [...prevState.favorites, id]
-            }), () => {
-                this.props.navigation.state.params.updateFavorites(this.state.favorites)
-            })
-
-            Toast.show({
-                text: "Rajouté sur favoris",
-                duration: 1200,
-                style: { backgroundColor: global.color.green }
-            })
-
-        } else {
+        if(self) {
             let array = [...this.state.favorites];
-
+    
             array.splice(index, 1);
 
             this.setState({favorites: array}, () => {
-                this.props.navigation.state.params.updateFavorites(this.state.favorites)
+                self.state.params.updateFavorites(this.state.favorites)
             });
 
             Toast.show({
@@ -59,16 +45,49 @@ export default class ApiMain extends Component {
                 duration: 1200,
                 style: { backgroundColor: global.color.red }
             })
+
+        } else {
+            if( index === -1){
+
+                this.setState(prevState => ({
+                    favorites: [...prevState.favorites, id]
+                }), () => {
+                    this.props.navigation.state.params.updateFavorites(this.state.favorites)
+                })
+    
+                Toast.show({
+                    text: "Rajouté sur favoris",
+                    duration: 1200,
+                    style: { backgroundColor: global.color.green }
+                })
+    
+            } else {
+                let array = [...this.state.favorites];
+    
+                array.splice(index, 1);
+    
+                this.setState({favorites: array}, () => {
+                    this.props.navigation.state.params.updateFavorites(this.state.favorites)
+                });
+    
+                Toast.show({
+                    text: "Supprimé sur favoris",
+                    duration: 1200,
+                    style: { backgroundColor: global.color.red }
+                })
+            }
         }
+        
     }
 
-    render() {        
+    render() {          
         return (
              <Container style={ styles.container } >
                 <Content>
                     <Questions 
                         data={this.state.data} 
-                        favorites={ this._addFavorite.bind(this) } 
+                        favorites={this._addFavorite.bind(this)} 
+                        self={this.props.navigation.getParam('self')}
                     /> 
                 </Content>
             </Container>

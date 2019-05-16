@@ -78,8 +78,20 @@ export default class Favorites extends Component {
         })
     }
 
-    _saveFavorites(){
+    _removeFavorites(){
+        let array = [...this.state.favorites];
 
+        array.splice(index, 1);
+
+        this.setState({favorites: array}, () => {
+            this.props.navigation.state.params.updateFavorites(this.state.favorites)
+        });
+
+        Toast.show({
+            text: "Supprimé sur favoris",
+            duration: 1200,
+            style: { backgroundColor: global.color.red }
+        })
     }
 
     render(){
@@ -99,7 +111,8 @@ export default class Favorites extends Component {
                                 <Button transparent 
                                     onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.personality,
-                                        favorites: this.state.favorites
+                                        favorites: this.state.favorites,
+                                        self: this.props.navigation
                                     })} >
                                    
                                     <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
@@ -122,7 +135,8 @@ export default class Favorites extends Component {
                                 <Button transparent 
                                     onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.experience,
-                                        favorites: this.state.favorites
+                                        favorites: this.state.favorites,
+                                        self: this.props.navigation
                                     })} >
 
                                     <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
@@ -145,7 +159,8 @@ export default class Favorites extends Component {
                                 <Button transparent 
                                     onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.opinions,
-                                        favorites: this.state.favorites
+                                        favorites: this.state.favorites,
+                                        self: this.props.navigation
                                     })} >
                                     <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
                                         <Text style={ styles.badgeText }>{ this.state.data.opinions.length }</Text>
@@ -166,7 +181,8 @@ export default class Favorites extends Component {
                                 <Button transparent
                                     onPress={() => this.props.navigation.navigate('Game', {
                                         questions: this.state.data.preferences,
-                                        favorites: this.state.favorites
+                                        favorites: this.state.favorites,
+                                        self: this.props.navigation
                                     })} >
                                     <ImageBackground source={ require('../../assets/img/bg_favorites.png') } style={ styles.badge }>
                                         <Text style={ styles.badgeText }>{ this.state.data.preferences.length }</Text>
