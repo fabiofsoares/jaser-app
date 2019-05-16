@@ -134,19 +134,16 @@ export default class Home extends React.Component {
 
         try {
             _getFetch(params).then( data => {
-                if(data !== false){
-                    console.log('API')
+                if(data !== false){                    
                     this.setState({
                         questions : this._renderArrayData(data)
                     })
-                } else {
-                    console.log('LOCAL')
+                } else {                   
                     this._getLocalData()
                 }
             });
 
-        } catch(err){
-            console.log(err)
+        } catch(err){           
             this._getLocalData()
         }
     }
